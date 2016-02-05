@@ -7,29 +7,22 @@ public class BaseActivity extends AppCompatActivity {
 
     public static final String TAG = "BaseActivity";
 
-    private final static int THEME_DARK = 0;
-    private final static int THEME_LIGHT = 1;
-
-    public boolean isPro() {
-        return (BuildConfig.FLAVOR.equals("pro"));
-    }
-
-    public boolean isAdmin() {
-        return (BuildConfig.FLAVOR.equals("admin"));
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateTheme();
     }
 
-    private void updateTheme() {
-        if (Utility.getTheme(getApplicationContext()) <= THEME_DARK) {
+    private void updateTheme() { //Change theme to all activities that extends BaseActivity
+        if (Global.getTheme(getApplicationContext()) == Global.THEME_DARK) {
             setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme_Light);
+            return;
         }
+        if (Global.getTheme(getApplicationContext()) == Global.THEME_LIGHT) {
+            setTheme(R.style.AppTheme_Light);
+            return;
+        }
+        setTheme(R.style.AppTheme_Light);
     }
 
 }
