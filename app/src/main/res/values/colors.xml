@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FF9800</color>
     <color name="colorPrimaryDark">#F57C00</color>
     <color name="colorAccent">#FF5252</color>
+    <color name="colorAccentInverse">#99CC00</color>
 
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecondary">#9E9E9E</color>
@@ -11,5 +12,4 @@
 
     <color name="colorPrimaryInverse">#4CAF50</color>
     <color name="colorPrimaryDarkInverse">#2E7D32</color>
-    <color name="colorAccentInverse">#99CC00</color>
 </resources>
