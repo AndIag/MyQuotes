@@ -25,9 +25,9 @@ import com.github.johnpersano.supertoasts.util.OnClickWrapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import es.coru.andiag.myquotes.AdapterQuotes;
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
+import es.coru.andiag.myquotes.adapters.AdapterQuotes;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.utils.QuoteListListener;
@@ -49,8 +49,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     private static MainActivity activityMain;
     private QuoteType type;
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
     private AdapterQuotes adapter;
     private SlideInLeftAnimationAdapter slideAdapter;
 
@@ -222,7 +220,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         activityMain.changeBarsColors(type);
         View rootView = inflater.inflate(R.layout.fragment_quote_list, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         menu = (FloatingActionsMenu) rootView.findViewById(R.id.add_menu);
         movie = (FloatingActionButton) rootView.findViewById(R.id.sub_movie);
         book = (FloatingActionButton) rootView.findViewById(R.id.sub_book);
@@ -285,7 +283,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        layoutManager = new LinearLayoutManager(activityMain);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activityMain);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
         recyclerView.setItemAnimator(new ScaleInAnimator());
