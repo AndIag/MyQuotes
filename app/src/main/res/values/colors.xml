@@ -12,4 +12,21 @@
 
     <color name="colorPrimaryInverse">#4CAF50</color>
     <color name="colorPrimaryDarkInverse">#2E7D32</color>
+
+    <!-- Categorias -->
+    <item name="music" type="color">#FF2196F3</item>
+    <item name="music_bar" type="color">#FF1565C0</item>
+    <item name="book" type="color">#FF673AB7</item>
+    <item name="book_bar" type="color">#FF4527A0</item>
+    <item name="movie" type="color">#FF4CAF50</item>
+    <item name="movie_bar" type="color">#FF2E7D32</item>
+    <item name="personal" type="color">#FFF44336</item>
+    <item name="personal_bar" type="color">#FFC62828</item>
+    <item name="settings" type="color">#FF607D8B</item>
+    <item name="settings_bar" type="color">#FF37474F</item>
+
+    <item name="text_quote" type="color">#FFFFFFFF</item>
+    <item name="text_author" type="color">#FF000000</item>
+    <item name="text_date" type="color">#AFFFFFFF</item>
+
 </resources>
