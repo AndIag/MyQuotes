@@ -312,8 +312,10 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     public void notifyDataSetChanged() {
         if (adapter != null) {
             if (type == MAIN_SECTION) {
+                //Get all quotes
                 adapter.addQuotes(activityMain.getFirebaseQuotes());
             } else {
+                //Get quotes by type
                 adapter.addQuotes(getMyQuotes(activityMain.getFirebaseQuotes()));
             }
             slideAdapter.notifyDataSetChanged();
