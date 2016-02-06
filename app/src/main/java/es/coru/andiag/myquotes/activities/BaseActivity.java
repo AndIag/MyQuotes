@@ -1,7 +1,10 @@
-package es.coru.andiag.myquotes;
+package es.coru.andiag.myquotes.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.utils.Global;
 
 public class BaseActivity extends AppCompatActivity {
 

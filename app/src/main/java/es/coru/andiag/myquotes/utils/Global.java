@@ -1,10 +1,12 @@
-package es.coru.andiag.myquotes;
+package es.coru.andiag.myquotes.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.Set;
+
+import es.coru.andiag.myquotes.BuildConfig;
 
 /**
  * Created by Canalejas on 03/02/2016.

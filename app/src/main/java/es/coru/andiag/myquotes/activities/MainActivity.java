@@ -1,4 +1,4 @@
-package es.coru.andiag.myquotes;
+package es.coru.andiag.myquotes.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.fragments.SettingsFragment;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {

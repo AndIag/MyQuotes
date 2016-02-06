@@ -1,4 +1,4 @@
-package es.coru.andiag.myquotes;
+package es.coru.andiag.myquotes.fragments;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+
+import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.utils.Global;
 
 /**
  * Created by Canalejas on 03/02/2016.
