@@ -18,14 +18,14 @@ public class BaseActivity extends AppCompatActivity {
 
     private void updateTheme() { //Change theme to all activities that extends BaseActivity
         if (Global.getTheme(getApplicationContext()) == Global.THEME_DARK) {
-            setTheme(R.style.AppTheme_Dark);
+            setTheme(R.style.AppTheme_Dark_NoActionBar);
             return;
         }
         if (Global.getTheme(getApplicationContext()) == Global.THEME_LIGHT) {
-            setTheme(R.style.AppTheme_Light);
+            setTheme(R.style.AppTheme_Light_NoActionBar);
             return;
         }
-        setTheme(R.style.AppTheme_Light);
+        setTheme(R.style.AppTheme_Light_NoActionBar);
     }
 
 }
