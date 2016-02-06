@@ -156,23 +156,25 @@ public abstract class QuoteDAO {
     //endregion
     //region Firebase Methods
     public static void loadFirebaseData(final MainActivity activity) {
-        myFirebaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Quote> quotes = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Quote quote = snapshot.getValue(Quote.class);
-                    quote.setIsLocal(false);
-                    quotes.add(quote);
+        if (Global.mustSync(activity)) {
+            myFirebaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<Quote> quotes = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Quote quote = snapshot.getValue(Quote.class);
+                        quote.setIsLocal(false);
+                        quotes.add(quote);
+                    }
+                    activity.addQuotes(quotes);
                 }
-                activity.addQuotes(quotes);
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public static void removeFirebaseQuote(final MainActivity activity, Quote q) {

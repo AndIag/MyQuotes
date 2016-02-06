@@ -74,6 +74,10 @@ public class MainActivity extends BaseActivity
         notifyListeners();
     }
 
+    public void removeFirebaseQuotes() {
+        firebaseQuotes = new HashSet<>();
+    }
+
     public HashSet<Quote> getFirebaseQuotes() {
         return firebaseQuotes;
     }
@@ -120,11 +124,17 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialice firebase
         Firebase.setAndroidContext(this);
         QuoteDAO.loadFirebaseData(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Create first view
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, QuoteListFragment.newInstance(0, QuoteType.DEFAULT))
+                .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
