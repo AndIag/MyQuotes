@@ -12,11 +12,65 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.fragments.SettingsFragment;
+import es.coru.andiag.myquotes.utils.QuoteListListener;
+import es.coru.andiag.myquotes.utils.db.DBHelper;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DBHelper dbHelper;
+    private HashSet<Quote> firebaseQuotes = new HashSet<>();
+    private ArrayList<QuoteListListener> quotesListeners;
+
+    public DBHelper getDbHelper() {
+        if (dbHelper == null) dbHelper = new DBHelper(this);
+        return dbHelper;
+    }
+
+    //region This code handle the listener we use to dinamically update all fragments
+    public void registerListener(QuoteListListener listener) {
+        quotesListeners.add(listener);
+        listener.notifyDataSetChanged(); //In case we have loaded the quotes yet
+    }
+
+    public void unregisterListener(QuoteListListener listener) {
+        quotesListeners.remove(listener);
+    }
+
+    public void notifyListeners() {
+        for (QuoteListListener l : quotesListeners) {
+            l.notifyDataSetChanged();
+        }
+    }
+
+    //endregion
+    //region This code handle the quotes we have loaded in our app
+    public void addQuotes(Quote q) {
+        firebaseQuotes.add(q);
+        notifyListeners();
+    }
+
+    public void addQuotes(List<Quote> quoteList) {
+        firebaseQuotes.addAll(quoteList);
+        notifyListeners();
+    }
+
+    public void removeQuote(Quote q) {
+        firebaseQuotes.remove(q);
+        notifyListeners();
+    }
+
+    public HashSet<Quote> getFirebaseQuotes() {
+        return firebaseQuotes;
+    }
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
