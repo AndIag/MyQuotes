@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,24 +114,28 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         Quote q = quoteList.get(i);
         VHQuote holder = (VHQuote) viewHolder;
-        CardView c = holder.cardView;
+
+        int color = context.getResources().getColor(R.color.settings);
         switch (q.getType()) {
             case MUSIC:
-                c.setCardBackgroundColor(context.getResources().getColor(R.color.music));
+                color = context.getResources().getColor(R.color.music);
                 break;
             case MOVIE:
-                c.setCardBackgroundColor(context.getResources().getColor(R.color.movie));
+                color = context.getResources().getColor(R.color.movie);
                 break;
             case PERSONAL:
-                c.setCardBackgroundColor(context.getResources().getColor(R.color.personal));
+                color = context.getResources().getColor(R.color.personal);
                 break;
             case BOOK:
-                c.setCardBackgroundColor(context.getResources().getColor(R.color.book));
+                color = context.getResources().getColor(R.color.book);
                 break;
             default:
-                c.setCardBackgroundColor(context.getResources().getColor(R.color.settings));
                 break;
         }
+        //holder.cardView.setCardBackgroundColor(color);
+        holder.textQuote.setTextColor(color);
+        holder.right.setColorFilter(color);
+        holder.left.setColorFilter(color);
         holder.textAuthor.setText(q.getAuthor());
         holder.textQuote.setText(q.getQuote());
         String date = dateF.format(q.getCreationDate().getTime());
@@ -147,7 +152,7 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         TextView textQuote, textAuthor, textCreationDate;
         CardView cardView;
-        ImageView buttonShare;
+        ImageView buttonShare,right,left;
 
         View v;
 
@@ -160,6 +165,8 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             textAuthor = (TextView) v.findViewById(R.id.textAuthor);
             textCreationDate = (TextView) v.findViewById(R.id.textCreationDate);
             buttonShare = (ImageView) v.findViewById(R.id.buttonShare);
+            right = (ImageView) v.findViewById(R.id.imageRight);
+            left = (ImageView) v.findViewById(R.id.imageLeft);
             buttonShare.setOnClickListener(this);
             cardView.setOnLongClickListener(this);
 

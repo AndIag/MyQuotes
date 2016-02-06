@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="andiag.coru.es.myquotes.fragments.QuoteListFragment">
+    tools:context=".activities.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="32dp"
-        fab:fab_addButtonColorNormal="@color/colorPrimary"
-        fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
-        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_addButtonColorNormal="?attr/colorPrimary"
+        fab:fab_addButtonColorPressed="?attr/colorPrimaryDark"
+        fab:fab_addButtonPlusIconColor="?attr/colorAccent"
         fab:fab_addButtonSize="normal"
         fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_labelsPosition="left">

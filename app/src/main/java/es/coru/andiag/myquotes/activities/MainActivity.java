@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -102,8 +103,14 @@ public class MainActivity extends BaseActivity
                 toolbarBarBackground.setColor(getResources().getColor(R.color.personal_bar));
                 break;
             case DEFAULT:
-                actionBarBackground.setColor(getResources().getColor(R.color.colorPrimary));
-                toolbarBarBackground.setColor(getResources().getColor(R.color.colorPrimaryDark));
+                TypedValue typedValue = new TypedValue();
+                TypedValue typedValueDark = new TypedValue();
+                this.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+                this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
+                int color = typedValue.data;
+                int colorDark = typedValueDark.data;
+                actionBarBackground.setColor(color);
+                toolbarBarBackground.setColor(colorDark);
                 break;
         }
         if (actionBar != null) {
