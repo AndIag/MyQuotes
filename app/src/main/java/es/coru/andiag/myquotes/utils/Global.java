@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import es.coru.andiag.myquotes.BuildConfig;
+import es.coru.andiag.myquotes.entities.LanguageType;
 
 /**
  * Created by Canalejas on 03/02/2016.
@@ -26,7 +28,12 @@ public class Global {
     public static Set<String> defaultSyncLanguages;
 
     static {
-        //Hay que insertar todos los lenguajes en defaultSyncLanguages aqui
+        //Set all languaes as default
+        defaultSyncLanguages = new HashSet<>();
+        defaultSyncLanguages.add(String.valueOf(LanguageType.UNSET.ordinal()));
+        defaultSyncLanguages.add(String.valueOf(LanguageType.ENG.ordinal()));
+        defaultSyncLanguages.add(String.valueOf(LanguageType.ESP.ordinal()));
+        defaultSyncLanguages.add(String.valueOf(LanguageType.IT.ordinal()));
     }
 
     //region Preferences
@@ -35,9 +42,15 @@ public class Global {
         return prefs.getBoolean(PREF_MUST_SYNC, true);
     }
 
-    public static Set<String> getSyncLanguages(Context context) {
+    public static Set<Integer> getSyncLanguages(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getStringSet(PREF_SYNC_LANGUAGES, defaultSyncLanguages);
+        Set<String> slanguages = prefs.getStringSet(PREF_SYNC_LANGUAGES, defaultSyncLanguages);
+        Set<Integer> languages = new HashSet<>();
+        for (String s : slanguages) {
+            languages.add(Integer.valueOf(s));
+        }
+        languages.add(LanguageType.UNSET.ordinal());
+        return languages;
     }
 
     public static int getTheme(Context context) {

@@ -66,11 +66,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     //Put the value again to true
                     prefs.edit().putBoolean(Global.PREF_MUST_SYNC, true).apply();
                 }
+                //Clean the array and if sync is activate reload data
+                ((MainActivity) getActivity()).removeFirebaseQuotes();
                 if (prefs.getBoolean(Global.PREF_MUST_SYNC, true) && !isDialogOpen) {
                     QuoteDAO.loadFirebaseData((MainActivity) getActivity());
-                }
-                if (!prefs.getBoolean(Global.PREF_MUST_SYNC, true) && !isDialogOpen) {
-                    ((MainActivity) getActivity()).removeFirebaseQuotes();
                 }
                 break;
             case Global.PREF_SYNC_LANGUAGES:
@@ -79,6 +78,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     showDialog("INSERTAR OTRO STRING AQUI");
                     //Put the value again to all languages
                     prefs.edit().putStringSet(Global.PREF_SYNC_LANGUAGES, Global.defaultSyncLanguages).apply();
+                }
+                ((MainActivity) getActivity()).removeFirebaseQuotes();
+                if (!isDialogOpen) {
+                    QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 }
                 break;
         }

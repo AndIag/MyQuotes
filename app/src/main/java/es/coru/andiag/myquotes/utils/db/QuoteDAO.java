@@ -12,6 +12,7 @@ import com.firebase.client.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.LanguageType;
@@ -161,10 +162,13 @@ public abstract class QuoteDAO {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     ArrayList<Quote> quotes = new ArrayList<>();
+                    Set<Integer> languages = Global.getSyncLanguages(activity);
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Quote quote = snapshot.getValue(Quote.class);
                         quote.setIsLocal(false);
-                        quotes.add(quote);
+                        if (languages.contains(quote.getLanguage().ordinal())) {
+                            quotes.add(quote);
+                        }
                     }
                     activity.addQuotes(quotes);
                 }
