@@ -3,12 +3,13 @@ package es.coru.andiag.myquotes.fragments;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 
 import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.utils.Global;
+import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 
 /**
  * Created by Canalejas on 03/02/2016.
@@ -53,6 +54,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         switch (key) {
             case Global.PREF_THEME_KEY: //Change the theme
                 getActivity().recreate();
@@ -62,8 +64,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     isDialogOpen = true;
                     showDialog("INSERTAR STRING AQUI");
                     //Put the value again to true
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     prefs.edit().putBoolean(Global.PREF_MUST_SYNC, true).apply();
+                }
+                //Clean the array and if sync is activate reload data
+                ((MainActivity) getActivity()).removeFirebaseQuotes();
+                if (prefs.getBoolean(Global.PREF_MUST_SYNC, true) && !isDialogOpen) {
+                    QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 }
                 break;
             case Global.PREF_SYNC_LANGUAGES:
@@ -71,8 +77,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     isDialogOpen = true;
                     showDialog("INSERTAR OTRO STRING AQUI");
                     //Put the value again to all languages
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     prefs.edit().putStringSet(Global.PREF_SYNC_LANGUAGES, Global.defaultSyncLanguages).apply();
+                }
+                ((MainActivity) getActivity()).removeFirebaseQuotes();
+                if (!isDialogOpen) {
+                    QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 }
                 break;
         }

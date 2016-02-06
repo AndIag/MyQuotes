@@ -1,0 +1,69 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/add_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="32dp"
+        fab:fab_addButtonColorNormal="?attr/colorPrimary"
+        fab:fab_addButtonColorPressed="?attr/colorPrimaryDark"
+        fab:fab_addButtonPlusIconColor="?attr/colorAccent"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sub_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/music"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_icon="@drawable/music"
+            fab:fab_size="mini"
+            fab:fab_title="@string/music_quote" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sub_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/book"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_icon="@drawable/book"
+            fab:fab_size="mini"
+            fab:fab_title="@string/book_quote" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sub_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/movie"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_icon="@drawable/movie"
+            fab:fab_size="mini"
+            fab:fab_title="@string/movie_quote" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sub_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/personal"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_icon="@drawable/personal"
+            fab:fab_size="mini"
+            fab:fab_title="@string/personal_quote" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+</FrameLayout>
