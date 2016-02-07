@@ -24,9 +24,6 @@ import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.OnClickWrapper;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.adapters.AdapterQuotes;
@@ -49,7 +46,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
     private static final String ARG_TYPE = "type";
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final QuoteType MAIN_SECTION = QuoteType.DEFAULT;
     private static MainActivity activityMain;
     private QuoteType type;
 
@@ -61,9 +57,8 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
     private DBHelper dbHelper;
     private SQLiteDatabase database;
-    private ArrayList<Quote> quotes;
     private Quote removedQuote;
-    private int remoteQuotePosition;
+    private int removedQuotePosition;
 
 
     //region Fragment Initialice Methods
@@ -111,13 +106,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         adapter = new AdapterQuotes(activityMain, this);
         slideAdapter = new SlideInLeftAnimationAdapter(adapter);
         slideAdapter.setFirstOnly(false);
-        database = dbHelper.getReadableDatabase();
-        if (type == MAIN_SECTION) { //If we are in the main section we load all our inner data and our db data to.
-            quotes = QuoteDAO.getQuotes(database);
-        } else { //Else we just load one type of data.
-            quotes = QuoteDAO.findQuotesByType(database, type);
-        }
-        database.close();
+
     }
 
     private void createFirebaseQuote(EditText textAuthor, EditText textQuote, QuoteType t) {
@@ -135,9 +124,8 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
         long id = QuoteDAO.addQuote(database, quote);
         quote.setQuoteId(id);
-        adapter.addQuotes(quote);
-        slideAdapter.notifyItemInserted(0);
         database.close();
+        activityMain.notifyDatabaseChange();
     }
 
     //region Handle the material dialog to add or modify a Quote
@@ -295,9 +283,8 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                     activityMain.removeQuote(removedQuote);
                 }
 
-                remoteQuotePosition = viewHolder.getPosition();
-                adapter.removeQuote(viewHolder.getPosition());
-                slideAdapter.notifyItemRemoved(viewHolder.getPosition());
+                removedQuotePosition = viewHolder.getPosition();
+                activityMain.notifyDatabaseChange();
 
                 SuperActivityToast superActivityToast = new SuperActivityToast(activityMain, SuperToast.Type.BUTTON);
                 superActivityToast.setDuration(SuperToast.Duration.EXTRA_LONG);
@@ -312,12 +299,12 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                                 database = dbHelper.getWritableDatabase();
                                 QuoteDAO.addQuote(database, removedQuote);
                                 database.close();
+                                activityMain.notifyDatabaseChange();
                             } else {
                                 activityMain.addQuote(removedQuote);
                             }
-                            adapter.addQuotes(removedQuote, remoteQuotePosition);
-                            slideAdapter.notifyItemInserted(remoteQuotePosition);
                             removedQuote = null;
+                            removedQuotePosition = -1;
                         }
                     }
 
@@ -334,34 +321,16 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(slideAdapter);
-        if (quotes == null) quotes = new ArrayList<>();
-        adapter.updateQuotes(quotes);
+        adapter.updateQuotes(activityMain.getQuotesByType(type));
         slideAdapter.notifyDataSetChanged();
 
         return rootView;
     }
 
-    //In this method we create an array with only our type quotes
-    private HashSet<Quote> getMyQuotes(HashSet<Quote> quotes) {
-        HashSet<Quote> q = new HashSet<>();
-        for (Quote quote : quotes) {
-            if (quote.getType() == type) {
-                q.add(quote);
-            }
-        }
-        return q;
-    }
-
     @Override //Callback for the listener
     public void notifyDataSetChanged() {
         if (adapter != null) {
-            if (type == MAIN_SECTION) {
-                //Get all quotes
-                adapter.addQuotes(activityMain.getFirebaseQuotes());
-            } else {
-                //Get quotes by type
-                adapter.addQuotes(getMyQuotes(activityMain.getFirebaseQuotes()));
-            }
+            adapter.updateQuotes(activityMain.getQuotesByType(type));
             slideAdapter.notifyDataSetChanged();
         }
     }

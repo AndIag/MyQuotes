@@ -12,10 +12,10 @@ import com.firebase.client.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 
 import es.coru.andiag.myquotes.activities.MainActivity;
-import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.utils.Global;
@@ -33,8 +33,8 @@ public abstract class QuoteDAO {
     }
 
     //region LocalDB Methods
-    public static ArrayList<Quote> getQuotes(SQLiteDatabase db) {
-        ArrayList<Quote> arrayList = new ArrayList<>();
+    public static HashSet<Quote> getQuotes(SQLiteDatabase db) {
+        HashSet<Quote> arrayList = new HashSet<>();
         Calendar c = Calendar.getInstance();
         Quote quote;
 
@@ -72,35 +72,36 @@ public abstract class QuoteDAO {
         return db.delete(DBHelper.QUOTES_TABLE, DBHelper.QUOTE_ID + "=" + id, null) > 0;
     }
 
-    public static ArrayList<Quote> findQuotesByType(SQLiteDatabase db, QuoteType type) {
-        ArrayList<Quote> arrayList = new ArrayList<>();
-        Quote quote;
-        Calendar c;
+    /*
+        public static ArrayList<Quote> findQuotesByType(SQLiteDatabase db, QuoteType type) {
+            ArrayList<Quote> arrayList = new ArrayList<>();
+            Quote quote;
+            Calendar c;
 
-        String execute = "SELECT * FROM " + DBHelper.QUOTES_TABLE;
-        if (type != null) {
-            execute += " WHERE " + DBHelper.TYPE + "='" + type.toString() + "'";
-        }
-        execute += " ORDER BY " + DBHelper.CREATION_DATE + " DESC";
-        Cursor cursor = db.rawQuery(execute, null);
+            String execute = "SELECT * FROM " + DBHelper.QUOTES_TABLE;
+            if (type != null) {
+                execute += " WHERE " + DBHelper.TYPE + "='" + type.toString() + "'";
+            }
+            execute += " ORDER BY " + DBHelper.CREATION_DATE + " DESC";
+            Cursor cursor = db.rawQuery(execute, null);
 
-        while (cursor != null && cursor.moveToNext()) {
-            quote = new Quote();
-            quote.setQuoteId(cursor.getLong(cursor.getColumnIndex(DBHelper.QUOTE_ID)));
-            quote.setQuote(cursor.getString(cursor.getColumnIndex(DBHelper.QUOTE)));
-            quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
-            quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
-            quote.setIsLocal(true);
-            quote.setLanguage(LanguageType.UNSET);
-            c = Calendar.getInstance();
-            c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
-            quote.setCreationDate(c);
-            arrayList.add(quote);
-        }
-        if (cursor != null) cursor.close();
+            while (cursor != null && cursor.moveToNext()) {
+                quote = new Quote();
+                quote.setQuoteId(cursor.getLong(cursor.getColumnIndex(DBHelper.QUOTE_ID)));
+                quote.setQuote(cursor.getString(cursor.getColumnIndex(DBHelper.QUOTE)));
+                quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
+                quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
+                quote.setIsLocal(true);
+                quote.setLanguage(LanguageType.UNSET);
+                c = Calendar.getInstance();
+                c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
+                quote.setCreationDate(c);
+                arrayList.add(quote);
+            }
+            if (cursor != null) cursor.close();
 
-        return arrayList;
-    }
+            return arrayList;
+        }*/
     //endregion
     //region Firebase Methods
     public static void loadFirebaseData(final MainActivity activity) {

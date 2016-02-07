@@ -1,6 +1,7 @@
 package es.coru.andiag.myquotes.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity
 
     private DBHelper dbHelper;
     private HashSet<Quote> firebaseQuotes = new HashSet<>();
+    private HashSet<Quote> localQuotes = new HashSet<>();
     private ArrayList<QuoteListListener> quotesListeners = new ArrayList<>();
 
     public DBHelper getDbHelper() {
@@ -56,7 +58,37 @@ public class MainActivity extends BaseActivity
         }
     }
     //endregion
-    //region This code handle the firebase quotes we have loaded in our app
+    //region This code handle quotes we have loaded in our app
+    public void notifyDatabaseChange() {
+        SQLiteDatabase database = getDbHelper().getReadableDatabase();
+        localQuotes.clear();
+        localQuotes = QuoteDAO.getQuotes(database);
+        database.close();
+        notifyListeners();
+    }
+
+    private HashSet<Quote> filterQuotes(HashSet<Quote> quotes, QuoteType type) {
+        HashSet<Quote> q = new HashSet<>();
+        for (Quote quote : quotes) {
+            if (quote.getType() == type) {
+                q.add(quote);
+            }
+        }
+        return q;
+    }
+
+    public HashSet<Quote> getQuotesByType(QuoteType type) {
+        HashSet<Quote> quotes = new HashSet<>();
+        if (type == QuoteType.DEFAULT) {
+            quotes.addAll(firebaseQuotes);
+            quotes.addAll(localQuotes);
+        } else {
+            quotes.addAll(filterQuotes(firebaseQuotes, type));
+            quotes.addAll(filterQuotes(localQuotes, type));
+        }
+        return quotes;
+    }
+
     public void addQuote(Quote q) { //Method used to add a removed quote
         firebaseQuotes.add(q);
         notifyListeners();
@@ -76,9 +108,6 @@ public class MainActivity extends BaseActivity
         firebaseQuotes = new HashSet<>();
     }
 
-    public HashSet<Quote> getFirebaseQuotes() {
-        return firebaseQuotes;
-    }
     //endregion
     //region Solution to get id in case we are in the admin mode
     private long getSmallestId() {

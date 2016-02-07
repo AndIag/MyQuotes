@@ -17,10 +17,8 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
@@ -56,55 +54,57 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return quoteList;
     }
 
-    public void updateQuotes(List<Quote> cL) {
-        this.quoteList = cL;
+    public void updateQuotes(Set<Quote> cL) {
+        quoteList.clear();
+        quoteList.addAll(cL);
         notifyDataSetChanged();
     }
 
-    //Add quotes to the adapter removing duplicate instances.
-    private void addAll(HashSet<Quote> quotes) {
-        for (Quote q : quotes) {
-            if (quoteList.contains(q)) {
-                quoteList.remove(q);
+    /*
+        //Add quotes to the adapter removing duplicate instances.
+        private void addAll(HashSet<Quote> quotes) {
+            for (Quote q : quotes) {
+                if (quoteList.contains(q)) {
+                    quoteList.remove(q);
+                }
+                quoteList.add(q);
             }
-            quoteList.add(q);
         }
-    }
 
-    //Sort the array by date.
-    private void sortArray() {
-        Comparator<Quote> comparator = new Comparator<Quote>() {
-            public int compare(Quote c1, Quote c2) {
-                if (c1.getCreationDate().before(c2.getCreationDate())) return -1;
-                if (c1.getCreationDate().after(c2.getCreationDate())) return 1;
-                return 0;
-            }
-        };
-        Collections.sort(quoteList, comparator);
-    }
+        //Sort the array by date.
+        private void sortArray() {
+            Comparator<Quote> comparator = new Comparator<Quote>() {
+                public int compare(Quote c1, Quote c2) {
+                    if (c1.getCreationDate().before(c2.getCreationDate())) return -1;
+                    if (c1.getCreationDate().after(c2.getCreationDate())) return 1;
+                    return 0;
+                }
+            };
+            Collections.sort(quoteList, comparator);
+        }
 
-    public void addQuotes(HashSet<Quote> quotes) {
-        if (quotes == null) return;
-        addAll(quotes);
-        sortArray();
-        notifyDataSetChanged();
-    }
+        public void addQuotes(HashSet<Quote> quotes) {
+            if (quotes == null) return;
+            addAll(quotes);
+            sortArray();
+            notifyDataSetChanged();
+        }
 
-    public void addQuotes(Quote q) {
-        quoteList.add(0, q);
-        notifyItemInserted(0);
-    }
+        public void addQuotes(Quote q) {
+            quoteList.add(0, q);
+            notifyItemInserted(0);
+        }
 
-    public void addQuotes(Quote q, int position) {
-        quoteList.add(position, q);
-        notifyItemInserted(position);
-    }
+        public void addQuotes(Quote q, int position) {
+            quoteList.add(position, q);
+            notifyItemInserted(position);
+        }
 
-    public void removeQuote(int position) {
-        quoteList.remove(position);
-        notifyItemRemoved(position);
-    }
-
+        public void removeQuote(int position) {
+            quoteList.remove(position);
+            notifyItemRemoved(position);
+        }
+    */
     public void clearQuotes() {
         quoteList.clear();
         notifyDataSetChanged();
@@ -147,7 +147,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             default:
                 break;
         }
-        //holder.cardView.setCardBackgroundColor(color);
         holder.textQuote.setTextColor(color);
         holder.right.setColorFilter(color);
         holder.left.setColorFilter(color);
