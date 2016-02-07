@@ -1,12 +1,13 @@
-package es.coru.andiag.myquotes;
+package es.coru.andiag.myquotes.adapters;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,12 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.Quote;
+import es.coru.andiag.myquotes.fragments.QuoteListFragment;
 import es.coru.andiag.myquotes.utils.Global;
+import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 
 /**
  * Created by iagoc on 06/02/2016.
@@ -30,15 +35,21 @@ import es.coru.andiag.myquotes.utils.Global;
 public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final static String TAG = "AdapterQuotes";
-
+    private final CharSequence[] adminActions;
     private Context context;
     private List<Quote> quoteList = new ArrayList<>();
     private DateFormat dateF;
+    private QuoteListFragment quoteListFragment;
 
-
-    public AdapterQuotes(Context context) {
+    public AdapterQuotes(Context context, QuoteListFragment quoteListFragment) {
         this.context = context;
+        this.quoteListFragment = quoteListFragment;
         dateF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, context.getResources().getConfiguration().locale);
+        adminActions = new CharSequence[]{
+                context.getString(R.string.admin_action_copy),
+                context.getString(R.string.admin_action_modify),
+                context.getString(R.string.admin_action_remove)
+        };
     }
 
     public List<Quote> getQuoteList() {
@@ -48,7 +59,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void updateQuotes(List<Quote> cL) {
         this.quoteList = cL;
         notifyDataSetChanged();
-
     }
 
     //Add quotes to the adapter removing duplicate instances.
@@ -93,6 +103,11 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void removeQuote(int position) {
         quoteList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void clearQuotes() {
+        quoteList.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -172,32 +187,52 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-        //NO SE SI HAY MAS DIFERENCIAS ENTRE EL DE ADMINISTRACION Y EL NORMAL ECHALE UN OJO
         @Override
         public void onClick(View v) {
-            if (Global.isAdmin()) {
-                //AQUI TIENE QUE HACER LO DE ADMIN + AÑADIR UNA OPCION QUE HAGA LO DE ABAJO
-            } else {//AQUI HACE LO DE LITE Y PRO NO SE SI QUIERES HACER QUE PRO PUEDA HACER ALGO MAS
-                Quote item = quoteList.get(getAdapterPosition());
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, item.getAuthor() + " : \"" + item.getQuote() + "\"");
-                context.startActivity(Intent.createChooser(intent, "Share with"));
-            }
+            Quote item = quoteList.get(getAdapterPosition());
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, item.getAuthor() + " : \"" + item.getQuote() + "\"");
+            context.startActivity(Intent.createChooser(intent, "Share with"));
         }
 
         @Override
         public boolean onLongClick(View view) {
             if (Global.isAdmin()) {
-                //AQUI TIENE QUE HACER LO DE ADMIN + AÑADIR UNA OPCION QUE HAGA LO DE ABAJO
-            } else {//AQUI HACE LO DE LITE Y PRO NO SE SI QUIERES HACER QUE PRO PUEDA HACER ALGO MAS
-                Quote item = quoteList.get(getAdapterPosition());
-                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("Quote", item.getQuote());
-                clipboard.setPrimaryClip(clipData);
-                Toast.makeText(context, R.string.clipboard, Toast.LENGTH_SHORT).show();
+                showAdminDialog();
+            } else {
+                copyToClipboard();
             }
             return true;
+        }
+
+        private void copyToClipboard() {
+            Quote item = quoteList.get(getAdapterPosition());
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText("Quote", item.getQuote());
+            clipboard.setPrimaryClip(clipData);
+            Toast.makeText(context, R.string.clipboard, Toast.LENGTH_SHORT).show();
+        }
+
+        private void showAdminDialog() {
+            final Quote qitem = quoteList.get(getAdapterPosition());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setItems(adminActions, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if (adminActions[item].equals(context.getString(R.string.admin_action_modify))) {
+                        quoteListFragment.showModifyDialog(qitem);
+                    }
+                    if (adminActions[item].equals(context.getString(R.string.admin_action_remove))) {
+                        QuoteDAO.removeFirebaseQuote((MainActivity) context, qitem);
+                    }
+                    if (adminActions[item].equals(context.getString(R.string.admin_action_copy))) {
+                        copyToClipboard();
+                    }
+                    clearQuotes();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 }
