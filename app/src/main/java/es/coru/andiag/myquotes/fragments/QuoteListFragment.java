@@ -313,7 +313,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                                 QuoteDAO.addQuote(database, removedQuote);
                                 database.close();
                             } else {
-                                activityMain.addQuotes(removedQuote);
+                                activityMain.addQuote(removedQuote);
                             }
                             adapter.addQuotes(removedQuote, remoteQuotePosition);
                             slideAdapter.notifyItemInserted(remoteQuotePosition);
@@ -333,7 +333,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activityMain);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
-        //recyclerView.setItemAnimator(new ScaleInAnimator());
         recyclerView.setAdapter(slideAdapter);
         if (quotes == null) quotes = new ArrayList<>();
         adapter.updateQuotes(quotes);

@@ -101,59 +101,6 @@ public abstract class QuoteDAO {
 
         return arrayList;
     }
-
-    public static Quote findQuoteById(SQLiteDatabase db, long id) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.QUOTES_TABLE + " WHERE " + DBHelper.QUOTE_ID + "=" + id + " ORDER BY " + DBHelper.CREATION_DATE, null);
-        Quote quote = null;
-        Calendar c;
-        if (cursor != null && cursor.moveToFirst()) {
-            quote = new Quote();
-            quote.setQuoteId(cursor.getLong(cursor.getColumnIndex(DBHelper.QUOTE_ID)));
-            quote.setQuote(cursor.getString(cursor.getColumnIndex(DBHelper.QUOTE)));
-            quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
-            quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
-            quote.setIsLocal(true);
-            quote.setLanguage(LanguageType.UNSET);
-            c = Calendar.getInstance();
-            c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
-            quote.setCreationDate(c);
-            cursor.close();
-        }
-        return quote;
-    }
-
-    public static ArrayList<Quote> findQuotesByKey(SQLiteDatabase db, QuoteType type, String key) {
-        ArrayList<Quote> arrayList = new ArrayList<>();
-        Quote quote;
-        Calendar c;
-
-        String execute = "SELECT * FROM " + DBHelper.QUOTES_TABLE;
-        if (type != null) execute += " WHERE " + type.toString();
-        if (key != null && type != null)
-            execute += " AND lower(" + DBHelper.QUOTE + ") LIKE %" + key.toLowerCase() + "%";
-        if (key != null && type == null)
-            execute += " WHERE lower(" + DBHelper.QUOTE + ") LIKE %" + key.toLowerCase() + "%";
-        execute += " ORDER BY " + DBHelper.CREATION_DATE + " DESC";
-
-        Cursor cursor = db.rawQuery(execute, null);
-        while (cursor != null && cursor.moveToNext()) {
-            quote = new Quote();
-            quote.setQuoteId(cursor.getLong(cursor.getColumnIndex(DBHelper.QUOTE_ID)));
-            quote.setQuote(cursor.getString(cursor.getColumnIndex(DBHelper.QUOTE)));
-            quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
-            quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
-            quote.setIsLocal(true);
-            quote.setLanguage(LanguageType.UNSET);
-            c = Calendar.getInstance();
-            c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
-            quote.setCreationDate(c);
-            arrayList.add(quote);
-        }
-        if (cursor != null) cursor.close();
-
-        return arrayList;
-    }
-
     //endregion
     //region Firebase Methods
     public static void loadFirebaseData(final MainActivity activity) {

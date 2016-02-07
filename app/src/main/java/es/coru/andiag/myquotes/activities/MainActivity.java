@@ -47,20 +47,17 @@ public class MainActivity extends BaseActivity
         quotesListeners.add(listener);
         listener.notifyDataSetChanged(); //In case we have loaded the quotes yet
     }
-
     public void unregisterListener(QuoteListListener listener) {
         quotesListeners.remove(listener);
     }
-
     public void notifyListeners() {
         for (QuoteListListener l : quotesListeners) {
             l.notifyDataSetChanged();
         }
     }
-
     //endregion
-    //region This code handle the quotes we have loaded in our app
-    public void addQuotes(Quote q) {
+    //region This code handle the firebase quotes we have loaded in our app
+    public void addQuote(Quote q) { //Method used to add a removed quote
         firebaseQuotes.add(q);
         notifyListeners();
     }
@@ -75,7 +72,7 @@ public class MainActivity extends BaseActivity
         notifyListeners();
     }
 
-    public void removeFirebaseQuotes() {
+    public void cleanFirebaseQuotes() {
         firebaseQuotes = new HashSet<>();
     }
 

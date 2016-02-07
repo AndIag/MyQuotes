@@ -37,9 +37,9 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final static String TAG = "AdapterQuotes";
     private final CharSequence[] adminActions;
     private Context context;
-    private List<Quote> quoteList = new ArrayList<>();
-    private DateFormat dateF;
     private QuoteListFragment quoteListFragment;
+    private DateFormat dateF;
+    private List<Quote> quoteList = new ArrayList<>();
 
     public AdapterQuotes(Context context, QuoteListFragment quoteListFragment) {
         this.context = context;
