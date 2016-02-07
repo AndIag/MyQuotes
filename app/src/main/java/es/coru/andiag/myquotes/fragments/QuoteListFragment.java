@@ -11,7 +11,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -28,12 +30,14 @@ import java.util.HashSet;
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.adapters.AdapterQuotes;
+import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
+import es.coru.andiag.myquotes.utils.DialogHelper;
+import es.coru.andiag.myquotes.utils.Global;
 import es.coru.andiag.myquotes.utils.QuoteListListener;
 import es.coru.andiag.myquotes.utils.db.DBHelper;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
-import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInLeftAnimationAdapter;
 
 /**
@@ -104,7 +108,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         if (getArguments() != null) {
             type = (QuoteType) getArguments().getSerializable(ARG_TYPE);
         }
-        adapter = new AdapterQuotes(activityMain);
+        adapter = new AdapterQuotes(activityMain, this);
         slideAdapter = new SlideInLeftAnimationAdapter(adapter);
         slideAdapter.setFirstOnly(false);
         database = dbHelper.getReadableDatabase();
@@ -116,47 +120,39 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         database.close();
     }
 
-    protected void showInputDialog(final QuoteType t) {
-        int color, icon;
-        switch (t) {
-            case MOVIE:
-                color = R.color.movie;
-                icon = R.drawable.movie;
-                break;
-            case MUSIC:
-                color = R.color.music;
-                icon = R.drawable.music;
-                break;
-            case PERSONAL:
-                icon = R.drawable.personal;
-                color = R.color.personal;
-                break;
-            case BOOK:
-                icon = R.drawable.book;
-                color = R.color.book;
-                break;
-            default:
-                color = R.color.settings;
-                icon = R.drawable.settings;
-        }
+    private void createFirebaseQuote(EditText textAuthor, EditText textQuote, QuoteType t) {
+        Toast.makeText(activityMain, textAuthor.getText() + " : " + textQuote.getText(), Toast.LENGTH_SHORT).show();
+        Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
+        long id = activityMain.getNextFirebaseId();
+        quote.setQuoteId(id);
+        quote.setLanguage(LanguageType.UNSET);
+        QuoteDAO.addFirebaseQuote(quote);
+    }
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(activityMain)
-                .title(R.string.dialog_input)
-                .titleColorRes(R.color.white)
-                .customView(R.layout.dialog_input, true)
-                .iconRes(icon)
-                .limitIconToDefaultSize()
-                .backgroundColorRes(color)
-                .positiveText(R.string.button_ok)
-                .positiveColorRes(R.color.white)
-                .negativeText(R.string.button_cancel)
-                .negativeColorRes(R.color.white)
-                .show();
+    private void createQuote(EditText textAuthor, EditText textQuote, QuoteType t) {
+        Toast.makeText(activityMain, textAuthor.getText() + " : " + textQuote.getText(), Toast.LENGTH_SHORT).show();
+        database = dbHelper.getWritableDatabase();
+        Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
+        long id = QuoteDAO.addQuote(database, quote);
+        quote.setQuoteId(id);
+        adapter.addQuotes(quote);
+        slideAdapter.notifyItemInserted(0);
+        database.close();
+    }
 
+    //region Handle the material dialog to add or modify a Quote
+    public void showInputDialog(final QuoteType t) {
+        final MaterialDialog dialog = DialogHelper.getDialog(activityMain, R.layout.dialog_input, DialogHelper.getIconByType(t), DialogHelper.getColorByType(t));
         View view = dialog.getCustomView();
+
+        if (view == null) {
+            throw new NullPointerException();
+        }
 
         final EditText textAuthor = (EditText) view.findViewById(R.id.editTextAuthor);
         final EditText textQuote = (EditText) view.findViewById(R.id.editTextQuote);
+        final Spinner s = (Spinner) view.findViewById(R.id.typeSpinner);
+        s.setVisibility(View.GONE);
 
         dialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,15 +160,12 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                 boolean a = !textAuthor.getText().toString().matches("");
                 boolean q = !textQuote.getText().toString().matches("");
                 if (a && q) {
-                    Toast.makeText(activityMain, textAuthor.getText() + " : " + textQuote.getText(), Toast.LENGTH_SHORT).show();
-                    database = dbHelper.getWritableDatabase();
-                    Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
-                    long id = QuoteDAO.addQuote(database, quote);
-                    quote.setQuoteId(id);
+                    if (Global.isAdmin()) {
+                        createFirebaseQuote(textAuthor, textQuote, t);
+                    } else {
+                        createQuote(textAuthor, textQuote, t);
+                    }
                     dialog.dismiss();
-                    adapter.addQuotes(quote);
-                    slideAdapter.notifyItemInserted(0);
-                    database.close();
                 } else {
                     if (!a) textAuthor.setError(activityMain.getString(R.string.error_edit));
                     if (!q) textQuote.setError(activityMain.getString(R.string.error_edit));
@@ -180,6 +173,60 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
             }
         });
     }
+
+    public void showModifyDialog(final Quote oldQuote) {
+        if (!Global.isAdmin()) return;
+
+        final QuoteType t = oldQuote.getType();
+        final MaterialDialog dialog = DialogHelper.getDialog(activityMain, R.layout.dialog_input, DialogHelper.getIconByType(t), DialogHelper.getColorByType(t));
+        View view = dialog.getCustomView();
+
+        if (view == null) {
+            throw new NullPointerException();
+        }
+
+        final EditText textAuthor = (EditText) view.findViewById(R.id.editTextAuthor);
+        textAuthor.setText(oldQuote.getAuthor());
+
+        final EditText textQuote = (EditText) view.findViewById(R.id.editTextQuote);
+        textQuote.setText(oldQuote.getQuote());
+
+        final Spinner s = (Spinner) view.findViewById(R.id.typeSpinner);
+        ArrayAdapter<QuoteType> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, QuoteType.values());
+        s.setAdapter(adapter);
+        s.setSelection(adapter.getPosition(t));
+
+        dialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean a = !textAuthor.getText().toString().matches("");
+                boolean q = !textQuote.getText().toString().matches("");
+                if (a && q) {
+                    //Add to firebase
+                    Toast.makeText(activityMain, textAuthor.getText() + " : " + textQuote.getText(), Toast.LENGTH_SHORT).show();
+                    Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
+                    quote.setQuoteId(quote.getQuoteId());
+                    quote.setLanguage(LanguageType.UNSET);
+                    quote.setType((QuoteType) s.getItemAtPosition(s.getSelectedItemPosition()));
+                    QuoteDAO.removeFirebaseQuote(activityMain, oldQuote);
+                    QuoteDAO.addFirebaseQuote(quote);
+                    dialog.dismiss();
+                } else {
+                    if (!a) textAuthor.setError(activityMain.getString(R.string.error_edit));
+                    if (!q) textQuote.setError(activityMain.getString(R.string.error_edit));
+                }
+            }
+        });
+        dialog.getActionButton(DialogAction.NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityMain.notifyListeners();
+                dialog.dismiss();
+            }
+        });
+    }
+    //endregion
 
     private void setOnClickListenersToMenu() {
         movie.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +333,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activityMain);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
-        recyclerView.setItemAnimator(new ScaleInAnimator());
+        //recyclerView.setItemAnimator(new ScaleInAnimator());
         recyclerView.setAdapter(slideAdapter);
         if (quotes == null) quotes = new ArrayList<>();
         adapter.updateQuotes(quotes);
