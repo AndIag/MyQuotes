@@ -33,7 +33,7 @@ import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final static String TAG = "AdapterQuotes";
-    private final CharSequence[] adminActions;
+    private final CharSequence[] actions;
     private Context context;
     private QuoteListFragment quoteListFragment;
     private DateFormat dateF;
@@ -43,11 +43,19 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.quoteListFragment = quoteListFragment;
         dateF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, context.getResources().getConfiguration().locale);
-        adminActions = new CharSequence[]{
-                context.getString(R.string.admin_action_copy),
-                context.getString(R.string.admin_action_modify),
-                context.getString(R.string.admin_action_remove)
-        };
+        if (GlobalPreferences.isAdmin()) {
+            actions = new CharSequence[]{
+                    context.getString(R.string.admin_action_copy),
+                    context.getString(R.string.admin_action_modify),
+                    context.getString(R.string.admin_action_remove),
+                    context.getString(R.string.admin_action_share_with_us)
+            };
+        } else {
+            actions = new CharSequence[]{
+                    context.getString(R.string.admin_action_copy),
+                    context.getString(R.string.admin_action_share_with_us)
+            };
+        }
     }
 
     public List<Quote> getQuoteList() {
@@ -152,11 +160,29 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public boolean onLongClick(View view) {
-            if (GlobalPreferences.isAdmin()) {
-                showAdminDialog();
-            } else {
-                copyToClipboard();
-            }
+            final Quote qitem = quoteList.get(getAdapterPosition());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setItems(actions, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    if (actions[item].equals(context.getString(R.string.admin_action_modify))) {
+                        quoteListFragment.showModifyDialog(qitem);
+                    }
+                    if (actions[item].equals(context.getString(R.string.admin_action_remove))) {
+                        QuoteDAO.removeFirebaseQuote((MainActivity) context, qitem);
+                    }
+                    if (actions[item].equals(context.getString(R.string.admin_action_copy))) {
+                        copyToClipboard();
+                    }
+                    if (actions[item].equals(context.getString(R.string.admin_action_share_with_us))) {
+                        if (qitem.isLocal()) {
+                            QuoteDAO.shareQuoteToUs(qitem);
+                        }
+                    }
+                    clearQuotes();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
             return true;
         }
 
@@ -166,27 +192,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ClipData clipData = ClipData.newPlainText("Quote", item.getQuote());
             clipboard.setPrimaryClip(clipData);
             Toast.makeText(context, R.string.clipboard, Toast.LENGTH_SHORT).show();
-        }
-
-        private void showAdminDialog() {
-            final Quote qitem = quoteList.get(getAdapterPosition());
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setItems(adminActions, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    if (adminActions[item].equals(context.getString(R.string.admin_action_modify))) {
-                        quoteListFragment.showModifyDialog(qitem);
-                    }
-                    if (adminActions[item].equals(context.getString(R.string.admin_action_remove))) {
-                        QuoteDAO.removeFirebaseQuote((MainActivity) context, qitem);
-                    }
-                    if (adminActions[item].equals(context.getString(R.string.admin_action_copy))) {
-                        copyToClipboard();
-                    }
-                    clearQuotes();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
         }
     }
 }

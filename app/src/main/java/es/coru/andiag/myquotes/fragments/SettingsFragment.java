@@ -16,7 +16,6 @@ import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String TAG = "SettingsFragment";
-    private static boolean isDialogOpen = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,15 +51,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             case GlobalPreferences.PREF_MUST_SYNC:
                 //Clean the array and if sync is activate reload data
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
-                if (prefs.getBoolean(GlobalPreferences.PREF_MUST_SYNC, true) && !isDialogOpen) {
+                if (prefs.getBoolean(GlobalPreferences.PREF_MUST_SYNC, true)) {
                     QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 }
                 break;
             case GlobalPreferences.PREF_SYNC_LANGUAGES:
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
-                if (!isDialogOpen) {
-                    QuoteDAO.loadFirebaseData((MainActivity) getActivity());
-                }
+                QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 break;
         }
     }

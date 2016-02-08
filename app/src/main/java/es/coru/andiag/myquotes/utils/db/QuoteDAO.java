@@ -27,9 +27,11 @@ public abstract class QuoteDAO {
 
     private final static String TAG = "QuoteDAO";
     private static final Firebase myFirebaseRef;
+    private static final Firebase myFirebaseRefShare;
 
     static {
         myFirebaseRef = new Firebase("https://myquotesandroid.firebaseio.com/");
+        myFirebaseRefShare = new Firebase("https://myquotesandroidshare.firebaseio.com/");
     }
 
     //region LocalDB Methods
@@ -104,6 +106,12 @@ public abstract class QuoteDAO {
             myFirebaseRef.child(String.valueOf(q.getQuoteId())).removeValue();
             activity.removeQuote(q);
             activity.notifyListeners();
+        }
+    }
+
+    public static void shareQuoteToUs(Quote q) {
+        if (GlobalPreferences.isAdmin()) {
+            myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
         }
     }
 
