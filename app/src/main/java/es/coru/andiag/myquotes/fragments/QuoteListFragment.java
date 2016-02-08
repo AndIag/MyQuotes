@@ -31,10 +31,10 @@ import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.utils.DialogHelper;
-import es.coru.andiag.myquotes.utils.Global;
-import es.coru.andiag.myquotes.utils.QuoteListListener;
+import es.coru.andiag.myquotes.utils.GlobalPreferences;
 import es.coru.andiag.myquotes.utils.db.DBHelper;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
+import es.coru.andiag.myquotes.utils.db.QuoteListListener;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInLeftAnimationAdapter;
 
 /**
@@ -148,7 +148,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                 boolean a = !textAuthor.getText().toString().matches("");
                 boolean q = !textQuote.getText().toString().matches("");
                 if (a && q) {
-                    if (Global.isAdmin()) {
+                    if (GlobalPreferences.isAdmin()) {
                         createFirebaseQuote(textAuthor, textQuote, t);
                     } else {
                         createQuote(textAuthor, textQuote, t);
@@ -163,7 +163,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     }
 
     public void showModifyDialog(final Quote oldQuote) {
-        if (!Global.isAdmin()) return;
+        if (!GlobalPreferences.isAdmin()) return;
 
         final QuoteType t = oldQuote.getType();
         final MaterialDialog dialog = DialogHelper.getDialog(activityMain, R.layout.dialog_input, DialogHelper.getIconByType(t), DialogHelper.getColorByType(t));

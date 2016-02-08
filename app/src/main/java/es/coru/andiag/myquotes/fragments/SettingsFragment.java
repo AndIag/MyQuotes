@@ -8,7 +8,7 @@ import android.support.v7.app.AlertDialog;
 
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
-import es.coru.andiag.myquotes.utils.Global;
+import es.coru.andiag.myquotes.utils.GlobalPreferences;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 
 /**
@@ -39,7 +39,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void showDialog(String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getString(R.string.alert));
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.button_ok),
                 new DialogInterface.OnClickListener() {
@@ -56,28 +56,28 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         switch (key) {
-            case Global.PREF_THEME_KEY: //Change the theme
+            case GlobalPreferences.PREF_THEME_KEY: //Change the theme
                 getActivity().recreate();
                 break;
-            case Global.PREF_MUST_SYNC:
-                if (Global.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
+            case GlobalPreferences.PREF_MUST_SYNC:
+                if (GlobalPreferences.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
                     isDialogOpen = true;
-                    showDialog("INSERTAR STRING AQUI");
+                    showDialog(getString(R.string.lite_version));
                     //Put the value again to true
-                    prefs.edit().putBoolean(Global.PREF_MUST_SYNC, true).apply();
+                    prefs.edit().putBoolean(GlobalPreferences.PREF_MUST_SYNC, true).apply();
                 }
                 //Clean the array and if sync is activate reload data
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
-                if (prefs.getBoolean(Global.PREF_MUST_SYNC, true) && !isDialogOpen) {
+                if (prefs.getBoolean(GlobalPreferences.PREF_MUST_SYNC, true) && !isDialogOpen) {
                     QuoteDAO.loadFirebaseData((MainActivity) getActivity());
                 }
                 break;
-            case Global.PREF_SYNC_LANGUAGES:
-                if (Global.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
+            case GlobalPreferences.PREF_SYNC_LANGUAGES:
+                if (GlobalPreferences.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
                     isDialogOpen = true;
-                    showDialog("INSERTAR OTRO STRING AQUI");
+                    showDialog(getString(R.string.lite_version));
                     //Put the value again to all languages
-                    prefs.edit().putStringSet(Global.PREF_SYNC_LANGUAGES, Global.defaultSyncLanguages).apply();
+                    prefs.edit().putStringSet(GlobalPreferences.PREF_SYNC_LANGUAGES, GlobalPreferences.defaultSyncLanguages).apply();
                 }
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
                 if (!isDialogOpen) {

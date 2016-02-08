@@ -18,7 +18,7 @@ import java.util.Set;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
-import es.coru.andiag.myquotes.utils.Global;
+import es.coru.andiag.myquotes.utils.GlobalPreferences;
 
 /**
  * Created by iagoc on 06/02/2016.
@@ -72,45 +72,15 @@ public abstract class QuoteDAO {
         return db.delete(DBHelper.QUOTES_TABLE, DBHelper.QUOTE_ID + "=" + id, null) > 0;
     }
 
-    /*
-        public static ArrayList<Quote> findQuotesByType(SQLiteDatabase db, QuoteType type) {
-            ArrayList<Quote> arrayList = new ArrayList<>();
-            Quote quote;
-            Calendar c;
-
-            String execute = "SELECT * FROM " + DBHelper.QUOTES_TABLE;
-            if (type != null) {
-                execute += " WHERE " + DBHelper.TYPE + "='" + type.toString() + "'";
-            }
-            execute += " ORDER BY " + DBHelper.CREATION_DATE + " DESC";
-            Cursor cursor = db.rawQuery(execute, null);
-
-            while (cursor != null && cursor.moveToNext()) {
-                quote = new Quote();
-                quote.setQuoteId(cursor.getLong(cursor.getColumnIndex(DBHelper.QUOTE_ID)));
-                quote.setQuote(cursor.getString(cursor.getColumnIndex(DBHelper.QUOTE)));
-                quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
-                quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
-                quote.setIsLocal(true);
-                quote.setLanguage(LanguageType.UNSET);
-                c = Calendar.getInstance();
-                c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
-                quote.setCreationDate(c);
-                arrayList.add(quote);
-            }
-            if (cursor != null) cursor.close();
-
-            return arrayList;
-        }*/
     //endregion
     //region Firebase Methods
     public static void loadFirebaseData(final MainActivity activity) {
-        if (Global.mustSync(activity)) {
+        if (GlobalPreferences.mustSync(activity)) {
             myFirebaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     ArrayList<Quote> quotes = new ArrayList<>();
-                    Set<Integer> languages = Global.getSyncLanguages(activity);
+                    Set<Integer> languages = GlobalPreferences.getSyncLanguages(activity);
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Quote quote = snapshot.getValue(Quote.class);
                         quote.setIsLocal(false);
@@ -130,7 +100,7 @@ public abstract class QuoteDAO {
     }
 
     public static void removeFirebaseQuote(final MainActivity activity, Quote q) {
-        if (Global.isAdmin()) {
+        if (GlobalPreferences.isAdmin()) {
             myFirebaseRef.child(String.valueOf(q.getQuoteId())).removeValue();
             activity.removeQuote(q);
             activity.notifyListeners();
@@ -138,7 +108,7 @@ public abstract class QuoteDAO {
     }
 
     public static void addFirebaseQuote(Quote q) {
-        if (Global.isAdmin()) {
+        if (GlobalPreferences.isAdmin()) {
             myFirebaseRef.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
         }
     }

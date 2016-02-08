@@ -24,7 +24,7 @@ import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.fragments.QuoteListFragment;
-import es.coru.andiag.myquotes.utils.Global;
+import es.coru.andiag.myquotes.utils.GlobalPreferences;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 
 /**
@@ -60,51 +60,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    /*
-        //Add quotes to the adapter removing duplicate instances.
-        private void addAll(HashSet<Quote> quotes) {
-            for (Quote q : quotes) {
-                if (quoteList.contains(q)) {
-                    quoteList.remove(q);
-                }
-                quoteList.add(q);
-            }
-        }
-
-        //Sort the array by date.
-        private void sortArray() {
-            Comparator<Quote> comparator = new Comparator<Quote>() {
-                public int compare(Quote c1, Quote c2) {
-                    if (c1.getCreationDate().before(c2.getCreationDate())) return -1;
-                    if (c1.getCreationDate().after(c2.getCreationDate())) return 1;
-                    return 0;
-                }
-            };
-            Collections.sort(quoteList, comparator);
-        }
-
-        public void addQuotes(HashSet<Quote> quotes) {
-            if (quotes == null) return;
-            addAll(quotes);
-            sortArray();
-            notifyDataSetChanged();
-        }
-
-        public void addQuotes(Quote q) {
-            quoteList.add(0, q);
-            notifyItemInserted(0);
-        }
-
-        public void addQuotes(Quote q, int position) {
-            quoteList.add(position, q);
-            notifyItemInserted(position);
-        }
-
-        public void removeQuote(int position) {
-            quoteList.remove(position);
-            notifyItemRemoved(position);
-        }
-    */
     public void clearQuotes() {
         quoteList.clear();
         notifyDataSetChanged();
@@ -197,7 +152,7 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public boolean onLongClick(View view) {
-            if (Global.isAdmin()) {
+            if (GlobalPreferences.isAdmin()) {
                 showAdminDialog();
             } else {
                 copyToClipboard();

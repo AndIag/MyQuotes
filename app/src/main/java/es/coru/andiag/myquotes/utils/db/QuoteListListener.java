@@ -1,4 +1,4 @@
-package es.coru.andiag.myquotes.utils;
+package es.coru.andiag.myquotes.utils.db;
 
 /**
  * Created by Canalejas on 11/10/2015.

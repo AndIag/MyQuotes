@@ -13,9 +13,9 @@ import es.coru.andiag.myquotes.entities.LanguageType;
 /**
  * Created by Canalejas on 03/02/2016.
  */
-public class Global {
+public class GlobalPreferences {
 
-    public static final String TAG = "Global";
+    public static final String TAG = "GlobalPreferences";
 
     public final static String FLAVOR_LITE = "lite";
     public final static String FLAVOR_PRO = "pro";

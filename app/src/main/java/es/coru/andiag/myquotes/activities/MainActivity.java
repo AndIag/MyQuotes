@@ -27,9 +27,9 @@ import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.fragments.QuoteListFragment;
 import es.coru.andiag.myquotes.fragments.SettingsFragment;
-import es.coru.andiag.myquotes.utils.QuoteListListener;
 import es.coru.andiag.myquotes.utils.db.DBHelper;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
+import es.coru.andiag.myquotes.utils.db.QuoteListListener;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
