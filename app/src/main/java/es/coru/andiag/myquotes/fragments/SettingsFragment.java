@@ -1,10 +1,9 @@
 package es.coru.andiag.myquotes.fragments;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
@@ -23,6 +22,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
+        if (GlobalPreferences.isLite()) {
+            Preference pref = findPreference(GlobalPreferences.PREF_MUST_SYNC);
+            pref.setEnabled(false);
+            pref = findPreference(GlobalPreferences.PREF_SYNC_LANGUAGES);
+            pref.setEnabled(false);
+        }
     }
 
     @Override
@@ -37,21 +42,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onPause();
     }
 
-    private void showDialog(String message) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(getString(R.string.alert));
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.button_ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        isDialogOpen = false;
-                        dialog.dismiss();
-                        getActivity().recreate();
-                    }
-                });
-        alertDialog.show();
-    }
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -60,12 +50,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 getActivity().recreate();
                 break;
             case GlobalPreferences.PREF_MUST_SYNC:
-                if (GlobalPreferences.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
-                    isDialogOpen = true;
-                    showDialog(getString(R.string.lite_version));
-                    //Put the value again to true
-                    prefs.edit().putBoolean(GlobalPreferences.PREF_MUST_SYNC, true).apply();
-                }
                 //Clean the array and if sync is activate reload data
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
                 if (prefs.getBoolean(GlobalPreferences.PREF_MUST_SYNC, true) && !isDialogOpen) {
@@ -73,12 +57,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
                 break;
             case GlobalPreferences.PREF_SYNC_LANGUAGES:
-                if (GlobalPreferences.isLite() && !isDialogOpen) { //If u are a lite user u can´t disable the synchronization
-                    isDialogOpen = true;
-                    showDialog(getString(R.string.lite_version));
-                    //Put the value again to all languages
-                    prefs.edit().putStringSet(GlobalPreferences.PREF_SYNC_LANGUAGES, GlobalPreferences.defaultSyncLanguages).apply();
-                }
                 ((MainActivity) getActivity()).cleanFirebaseQuotes();
                 if (!isDialogOpen) {
                     QuoteDAO.loadFirebaseData((MainActivity) getActivity());

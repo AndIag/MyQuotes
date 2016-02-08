@@ -52,7 +52,6 @@
 
     <!-- Otros -->
     <string name="clipboard">Quote copied to clipboard.</string>
-    <string name="app_name">MyQuotes</string>
 
     <string name="music_quote">Music Quote</string>
     <string name="book_quote">Book Quotes</string>
