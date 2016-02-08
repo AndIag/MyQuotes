@@ -1,5 +1,7 @@
 package es.coru.andiag.myquotes.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -33,6 +36,8 @@ import es.coru.andiag.myquotes.utils.db.QuoteListListener;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String FRAGMENT_TAG = "QuotesFragment";
 
     private DBHelper dbHelper;
     private HashSet<Quote> firebaseQuotes = new HashSet<>();
@@ -65,6 +70,21 @@ public class MainActivity extends BaseActivity
         localQuotes = QuoteDAO.getQuotes(database);
         database.close();
         notifyListeners();
+    }
+
+    public HashSet<Quote> getSearchedQuotes(String query) {
+        HashSet<Quote> quotes = new HashSet<>();
+        for (Quote q : firebaseQuotes) {
+            if (q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) {
+                quotes.add(q);
+            }
+        }
+        for (Quote q : localQuotes) {
+            if (q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) {
+                quotes.add(q);
+            }
+        }
+        return quotes;
     }
 
     private HashSet<Quote> filterQuotes(HashSet<Quote> quotes, QuoteType type) {
@@ -224,6 +244,30 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    QuoteListFragment myFragment = (QuoteListFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+                    if (myFragment != null && myFragment.isVisible()) {
+                        if (query.length() <= 0) {
+                            myFragment.notifyDataSetChanged();
+                        } else {
+                            myFragment.notifySearch(getSearchedQuotes(query.toLowerCase()));
+                        }
+                    }
+                    return true;
+                }
+            });
+        }
         return true;
     }
 
@@ -283,7 +327,7 @@ public class MainActivity extends BaseActivity
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, f)
+                .replace(R.id.main_container, f, FRAGMENT_TAG)
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

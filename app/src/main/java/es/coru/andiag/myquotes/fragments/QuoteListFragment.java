@@ -24,6 +24,8 @@ import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.OnClickWrapper;
 
+import java.util.Set;
+
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.adapters.AdapterQuotes;
@@ -331,6 +333,14 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     public void notifyDataSetChanged() {
         if (adapter != null) {
             adapter.updateQuotes(activityMain.getQuotesByType(type));
+            slideAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void notifySearch(Set<Quote> quotes) {
+        if (adapter != null && quotes != null) {
+            adapter.updateQuotes(quotes);
             slideAdapter.notifyDataSetChanged();
         }
     }
