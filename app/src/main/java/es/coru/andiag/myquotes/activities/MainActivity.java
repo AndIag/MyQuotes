@@ -72,15 +72,15 @@ public class MainActivity extends BaseActivity
         notifyListeners();
     }
 
-    public HashSet<Quote> getSearchedQuotes(String query) {
+    public HashSet<Quote> getSearchedQuotes(String query, QuoteType type) {
         HashSet<Quote> quotes = new HashSet<>();
         for (Quote q : firebaseQuotes) {
-            if (q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) {
+            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) && (q.getType() == type)) {
                 quotes.add(q);
             }
         }
         for (Quote q : localQuotes) {
-            if (q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) {
+            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) && (q.getType() == type)) {
                 quotes.add(q);
             }
         }
@@ -206,6 +206,7 @@ public class MainActivity extends BaseActivity
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -236,7 +237,14 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            QuoteListFragment myFragment = (QuoteListFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            if (myFragment != null && myFragment.getType() == QuoteType.DEFAULT) {
+                super.onBackPressed();
+                return;
+            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, QuoteListFragment.newInstance(0, QuoteType.DEFAULT), FRAGMENT_TAG)
+                    .commit();
         }
     }
 
@@ -261,7 +269,7 @@ public class MainActivity extends BaseActivity
                         if (query.length() <= 0) {
                             myFragment.notifyDataSetChanged();
                         } else {
-                            myFragment.notifySearch(getSearchedQuotes(query.toLowerCase()));
+                            myFragment.notifySearch(getSearchedQuotes(query.toLowerCase(), myFragment.getType()));
                         }
                     }
                     return true;
@@ -277,13 +285,12 @@ public class MainActivity extends BaseActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_container, new SettingsFragment())
-                    .commit();
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, new SettingsFragment())
+                        .commit();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

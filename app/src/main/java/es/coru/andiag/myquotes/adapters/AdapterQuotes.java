@@ -117,6 +117,7 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.textQuote.setText(q.getQuote());
         String date = dateF.format(q.getCreationDate().getTime());
         holder.textCreationDate.setText(date);
+        holder.isLocal = q.isLocal();
     }
 
     @Override
@@ -125,11 +126,12 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    class VHQuote extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class VHQuote extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView textQuote, textAuthor, textCreationDate;
         CardView cardView;
         ImageView buttonShare,right,left;
+        boolean isLocal;
 
         View v;
 
@@ -147,6 +149,10 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             buttonShare.setOnClickListener(this);
             cardView.setOnLongClickListener(this);
 
+        }
+
+        public boolean isLocal() {
+            return isLocal;
         }
 
         @Override

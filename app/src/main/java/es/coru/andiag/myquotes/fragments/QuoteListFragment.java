@@ -60,8 +60,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     private DBHelper dbHelper;
     private SQLiteDatabase database;
     private Quote removedQuote;
-    private int removedQuotePosition;
-
 
     //region Fragment Initialice Methods
     public QuoteListFragment() {
@@ -75,6 +73,10 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public QuoteType getType() {
+        return type;
     }
 
     @Override
@@ -269,6 +271,14 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if ((viewHolder instanceof AdapterQuotes.VHQuote) && !(((AdapterQuotes.VHQuote) viewHolder).isLocal())) {
+                    return 0;
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
+            @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
             }
@@ -281,11 +291,8 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                     database = dbHelper.getReadableDatabase();
                     QuoteDAO.removeQuote(database, removedQuote.getQuoteId());
                     database.close();
-                } else {
-                    activityMain.removeQuote(removedQuote);
-                }
+                } else return;
 
-                removedQuotePosition = viewHolder.getPosition();
                 activityMain.notifyDatabaseChange();
 
                 SuperActivityToast superActivityToast = new SuperActivityToast(activityMain, SuperToast.Type.BUTTON);
@@ -302,11 +309,8 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                                 QuoteDAO.addQuote(database, removedQuote);
                                 database.close();
                                 activityMain.notifyDatabaseChange();
-                            } else {
-                                activityMain.addQuote(removedQuote);
                             }
                             removedQuote = null;
-                            removedQuotePosition = -1;
                         }
                     }
 
@@ -344,5 +348,4 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
             slideAdapter.notifyDataSetChanged();
         }
     }
-
 }
