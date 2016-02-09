@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="book" format="color|reference" />
+    <attr name="book_bar" format="color|reference" />
+    <attr name="music" format="color|reference" />
+    <attr name="music_bar" format="color|reference" />
+    <attr name="movie" format="color|reference" />
+    <attr name="movie_bar" format="color|reference" />
+    <attr name="personal" format="color|reference" />
+    <attr name="personal_bar" format="color|reference" />
+    <attr name="settings" format="color|reference" />
+    <attr name="settings_bar" format="color|reference" />
+</resources>

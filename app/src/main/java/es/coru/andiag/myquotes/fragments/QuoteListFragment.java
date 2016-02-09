@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.OnClickWrapper;
@@ -54,7 +54,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     private AdapterQuotes adapter;
     private SlideInLeftAnimationAdapter slideAdapter;
 
-    private FloatingActionsMenu menu;
+    private FloatingActionMenu menu;
     private FloatingActionButton music, book, personal, movie;
 
     private DBHelper dbHelper;
@@ -224,28 +224,28 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menu.collapse();
+                menu.close(true);
                 showInputDialog(QuoteType.MOVIE);
             }
         });
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menu.collapse();
+                menu.close(true);
                 showInputDialog(QuoteType.MUSIC);
             }
         });
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menu.collapse();
+                menu.close(true);
                 showInputDialog(QuoteType.BOOK);
             }
         });
         personal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menu.collapse();
+                menu.close(true);
                 showInputDialog(QuoteType.PERSONAL);
             }
         });
@@ -256,12 +256,13 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        activityMain.changeBarsColors(type);
         View rootView = inflater.inflate(R.layout.fragment_quote_list, container, false);
+        activityMain.changeBarsColors(type, rootView);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        menu = (FloatingActionsMenu) rootView.findViewById(R.id.add_menu);
+        menu = (FloatingActionMenu) rootView.findViewById(R.id.add_menu);
         movie = (FloatingActionButton) rootView.findViewById(R.id.sub_movie);
+
         book = (FloatingActionButton) rootView.findViewById(R.id.sub_book);
         music = (FloatingActionButton) rootView.findViewById(R.id.sub_music);
         personal = (FloatingActionButton) rootView.findViewById(R.id.sub_personal);

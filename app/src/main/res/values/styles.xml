@@ -1,9 +1,8 @@
 <resources>
     <attr name="cardStyle" format="reference" />
 
-    <!-- Base application theme. -->
+    <!-- Light Themes -->
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -15,13 +14,21 @@
         <item name="cardStyle">@style/CardViewStyle.Light</item>
     </style>
 
+    <style name="CardViewStyle.Light" parent="CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="contentPadding">1dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+    </style>
+
     <style name="AppTheme.Light.NoActionBar" parent="AppTheme.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <!-- Dark application theme. -->
+
+    <!-- Dark theme -->
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryInverse</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkInverse</item>
         <item name="colorAccent">@color/colorAccentInverse</item>
@@ -33,11 +40,23 @@
         <item name="cardStyle">@style/CardViewStyle.Dark</item>
     </style>
 
+    <style name="CardViewStyle.Dark" parent="CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="contentPadding">1dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardBackgroundColor">@color/card_dark</item>
+    </style>
+
     <style name="AppTheme.Dark.NoActionBar" parent="AppTheme.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--  -->
+
+
+    <!-- Common things. -->
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
@@ -48,23 +67,6 @@
         <item name="colorControlActivated">@color/white</item>
     </style>
 
-    <style name="CardViewStyle.Light" parent="CardView">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="contentPadding">1dp</item>
-        <item name="cardUseCompatPadding">true</item>
-        <item name="cardBackgroundColor">@color/card_light</item>
-    </style>
-
-    <style name="CardViewStyle.Dark" parent="CardView">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="contentPadding">1dp</item>
-        <item name="cardUseCompatPadding">true</item>
-        <item name="cardBackgroundColor">@color/card_dark</item>
-    </style>
-
-    <!-- Common things. -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

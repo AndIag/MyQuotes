@@ -18,8 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.client.Firebase;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -164,27 +166,37 @@ public class MainActivity extends BaseActivity
     }
     //endregion
 
-    public void changeBarsColors(QuoteType type) {
+    public void changeBarsColors(QuoteType type, View rootView) {
         final ColorDrawable actionBarBackground = new ColorDrawable();
         final ColorDrawable toolbarBarBackground = new ColorDrawable();
         ActionBar actionBar = getSupportActionBar();
+
+        FloatingActionMenu floatingMenu = (FloatingActionMenu) rootView.findViewById(R.id.add_menu);
 
         switch (type) {
             case BOOK:
                 actionBarBackground.setColor(getResources().getColor(R.color.book));
                 toolbarBarBackground.setColor(getResources().getColor(R.color.book_bar));
+                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.book));
+                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.book_bar));
                 break;
             case MOVIE:
                 actionBarBackground.setColor(getResources().getColor(R.color.movie));
                 toolbarBarBackground.setColor(getResources().getColor(R.color.movie_bar));
+                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.movie));
+                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.movie_bar));
                 break;
             case MUSIC:
                 actionBarBackground.setColor(getResources().getColor(R.color.music));
                 toolbarBarBackground.setColor(getResources().getColor(R.color.music_bar));
+                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.music));
+                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.music_bar));
                 break;
             case PERSONAL:
                 actionBarBackground.setColor(getResources().getColor(R.color.personal));
                 toolbarBarBackground.setColor(getResources().getColor(R.color.personal_bar));
+                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.personal));
+                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.personal_bar));
                 break;
             case DEFAULT:
                 TypedValue typedValue = new TypedValue();
@@ -203,7 +215,6 @@ public class MainActivity extends BaseActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(toolbarBarBackground.getColor());
         }
-
     }
 
 
