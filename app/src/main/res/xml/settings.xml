@@ -19,6 +19,7 @@
 
         <MultiSelectListPreference
             android:defaultValue="@array/pref_sync_language_default_values"
+            android:dependency="must_sync"
             android:entries="@array/pref_sync_language_titles"
             android:entryValues="@array/pref_sync_language_values"
             android:key="sync_languages"
