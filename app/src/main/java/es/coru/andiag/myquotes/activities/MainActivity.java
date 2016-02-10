@@ -76,13 +76,16 @@ public class MainActivity extends BaseActivity
 
     public HashSet<Quote> getSearchedQuotes(String query, QuoteType type) {
         HashSet<Quote> quotes = new HashSet<>();
+        boolean isDefault = type == QuoteType.DEFAULT;
         for (Quote q : firebaseQuotes) {
-            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) && (q.getType() == type)) {
+            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) //Query match author or quote
+                    && ((q.getType() == type) || (isDefault))) { //Type = quoteType or we are in default fragment
                 quotes.add(q);
             }
         }
         for (Quote q : localQuotes) {
-            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) && (q.getType() == type)) {
+            if ((q.getAuthor().toLowerCase().contains(query) || q.getQuote().toLowerCase().contains(query)) //Query match author or quote
+                    && ((q.getType() == type) || (isDefault))) { //Type = quoteType or we are in default fragment
                 quotes.add(q);
             }
         }
@@ -301,6 +304,8 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_container, new SettingsFragment())
                         .commit();
+                return true;
+            case R.id.action_about:
                 return true;
         }
 
