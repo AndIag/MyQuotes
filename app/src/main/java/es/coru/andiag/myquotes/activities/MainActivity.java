@@ -114,11 +114,6 @@ public class MainActivity extends BaseActivity
         return quotes;
     }
 
-    public void addQuote(Quote q) { //Method used to add a removed quote
-        firebaseQuotes.add(q);
-        notifyListeners();
-    }
-
     public void addQuotes(List<Quote> quoteList) {
         firebaseQuotes.addAll(quoteList);
         notifyListeners();
@@ -220,15 +215,30 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("firebaseQuotes", firebaseQuotes);
+        outState.putSerializable("localQuotes", localQuotes);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Initialice firebase
-        Firebase.setAndroidContext(this);
-        QuoteDAO.loadFirebaseData(this);
+        if (savedInstanceState == null) {
+            //Initialice firebase
+            Firebase.setAndroidContext(this);
+            QuoteDAO.loadFirebaseData(this);
+            SQLiteDatabase db = getDbHelper().getReadableDatabase();
+            localQuotes = QuoteDAO.getQuotes(db);
+            db.close();
+        } else {
+            //Reload data
+            firebaseQuotes = (HashSet<Quote>) savedInstanceState.getSerializable("firebaseQuotes");
+            localQuotes = (HashSet<Quote>) savedInstanceState.getSerializable("localQuotes");
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
