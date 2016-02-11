@@ -32,8 +32,8 @@
     <!-- Categories -->
     <item name="music" type="color">#00B0FF</item>
     <item name="music_bar" type="color">#1565C0</item>
-    <item name="book" type="color">#FFC400</item>
-    <item name="book_bar" type="color">#FF8F00</item>
+    <item name="book" type="color">#FF9800</item>
+    <item name="book_bar" type="color">#F57C00</item>
     <item name="movie" type="color">#00E676</item>
     <item name="movie_bar" type="color">#2E7D32</item>
     <item name="personal" type="color">#FF1744</item>
