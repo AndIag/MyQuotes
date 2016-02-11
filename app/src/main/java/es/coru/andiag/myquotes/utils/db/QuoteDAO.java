@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import es.coru.andiag.myquotes.activities.MainActivity;
+import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.utils.GlobalPreferences;
@@ -110,9 +111,7 @@ public abstract class QuoteDAO {
     }
 
     public static void shareQuoteToUs(Quote q) {
-        if (GlobalPreferences.isAdmin()) {
-            myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
-        }
+        myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
     }
 
     public static void addFirebaseQuote(Quote q) {
@@ -135,9 +134,12 @@ public abstract class QuoteDAO {
             this.quoteId = q.getQuoteId();
             this.author = q.getAuthor();
             this.creationDate = q.getCreationDate();
-            this.language = q.getLanguage().ordinal();
             this.quote = q.getQuote();
             this.type = q.getType().ordinal();
+            this.language = LanguageType.UNSET.ordinal();
+            if (q.getLanguage() != null) {
+                this.language = q.getLanguage().ordinal();
+            }
         }
 
         public long getQuoteId() {
