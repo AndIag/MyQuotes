@@ -10,6 +10,16 @@
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
         <item name="android:textColorPrimaryInverse">@color/textColorPrimary</item>
         <item name="android:textColorSecondaryInverse">@color/textColorSecondary</item>
+        <item name="book">@color/book</item>
+        <item name="book_bar">@color/book_bar</item>
+        <item name="music">@color/music</item>
+        <item name="music_bar">@color/music_bar</item>
+        <item name="movie">@color/movie</item>
+        <item name="movie_bar">@color/movie_bar</item>
+        <item name="personal">@color/personal</item>
+        <item name="personal_bar">@color/personal_bar</item>
+        <item name="settings">@color/settings</item>
+        <item name="settings_bar">@color/settings_bar</item>
 
         <item name="cardStyle">@style/CardViewStyle.Light</item>
     </style>
@@ -36,6 +46,16 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse</item>
+        <item name="book">@color/music</item>
+        <item name="book_bar">@color/music_bar</item>
+        <item name="music">@color/book</item>
+        <item name="music_bar">@color/book_bar</item>
+        <item name="movie">@color/personal</item>
+        <item name="movie_bar">@color/personal_bar</item>
+        <item name="personal">@color/movie</item>
+        <item name="personal_bar">@color/movie_bar</item>
+        <item name="settings">@color/settings</item>
+        <item name="settings_bar">@color/settings_bar</item>
 
         <item name="cardStyle">@style/CardViewStyle.Dark</item>
     </style>

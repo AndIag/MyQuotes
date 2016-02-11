@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,23 +75,26 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Quote q = quoteList.get(i);
         VHQuote holder = (VHQuote) viewHolder;
 
-        int color = context.getResources().getColor(R.color.settings);
+        TypedValue tcolor = new TypedValue();
         switch (q.getType()) {
             case MUSIC:
-                color = context.getResources().getColor(R.color.music);
+                context.getTheme().resolveAttribute(R.attr.music, tcolor, true);
                 break;
             case MOVIE:
-                color = context.getResources().getColor(R.color.movie);
+                context.getTheme().resolveAttribute(R.attr.movie, tcolor, true);
                 break;
             case PERSONAL:
-                color = context.getResources().getColor(R.color.personal);
+                context.getTheme().resolveAttribute(R.attr.personal, tcolor, true);
                 break;
             case BOOK:
-                color = context.getResources().getColor(R.color.book);
+                context.getTheme().resolveAttribute(R.attr.book, tcolor, true);
                 break;
             default:
                 break;
         }
+
+        int color = context.getResources().getColor(tcolor.resourceId);
+
         holder.textQuote.setTextColor(color);
         holder.right.setColorFilter(color);
         holder.left.setColorFilter(color);

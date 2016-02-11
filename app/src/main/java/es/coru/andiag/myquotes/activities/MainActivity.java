@@ -170,43 +170,35 @@ public class MainActivity extends BaseActivity
         ActionBar actionBar = getSupportActionBar();
 
         FloatingActionMenu floatingMenu = (FloatingActionMenu) rootView.findViewById(R.id.add_menu);
+        TypedValue color = new TypedValue();
+        TypedValue colorDark = new TypedValue();
 
         switch (type) {
             case BOOK:
-                actionBarBackground.setColor(getResources().getColor(R.color.book));
-                toolbarBarBackground.setColor(getResources().getColor(R.color.book_bar));
-                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.book));
-                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.book_bar));
+                getTheme().resolveAttribute(R.attr.book, color, true);
+                getTheme().resolveAttribute(R.attr.book_bar, colorDark, true);
                 break;
             case MOVIE:
-                actionBarBackground.setColor(getResources().getColor(R.color.movie));
-                toolbarBarBackground.setColor(getResources().getColor(R.color.movie_bar));
-                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.movie));
-                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.movie_bar));
+                getTheme().resolveAttribute(R.attr.movie, color, true);
+                getTheme().resolveAttribute(R.attr.movie_bar, colorDark, true);
                 break;
             case MUSIC:
-                actionBarBackground.setColor(getResources().getColor(R.color.music));
-                toolbarBarBackground.setColor(getResources().getColor(R.color.music_bar));
-                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.music));
-                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.music_bar));
+                getTheme().resolveAttribute(R.attr.music, color, true);
+                getTheme().resolveAttribute(R.attr.music_bar, colorDark, true);
                 break;
             case PERSONAL:
-                actionBarBackground.setColor(getResources().getColor(R.color.personal));
-                toolbarBarBackground.setColor(getResources().getColor(R.color.personal_bar));
-                floatingMenu.setMenuButtonColorNormal(getResources().getColor(R.color.personal));
-                floatingMenu.setMenuButtonColorPressed(getResources().getColor(R.color.personal_bar));
+                getTheme().resolveAttribute(R.attr.personal, color, true);
+                getTheme().resolveAttribute(R.attr.personal_bar, colorDark, true);
                 break;
             case DEFAULT:
-                TypedValue typedValue = new TypedValue();
-                TypedValue typedValueDark = new TypedValue();
-                this.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-                this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
-                int color = typedValue.data;
-                int colorDark = typedValueDark.data;
-                actionBarBackground.setColor(color);
-                toolbarBarBackground.setColor(colorDark);
+                this.getTheme().resolveAttribute(R.attr.colorPrimary, color, true);
+                this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorDark, true);
                 break;
         }
+        actionBarBackground.setColor(getResources().getColor(color.resourceId));
+        toolbarBarBackground.setColor(getResources().getColor(colorDark.resourceId));
+        floatingMenu.setMenuButtonColorNormal(getResources().getColor(color.resourceId));
+        floatingMenu.setMenuButtonColorPressed(getResources().getColor(colorDark.resourceId));
         if (actionBar != null) {
             actionBar.setBackgroundDrawable(actionBarBackground);
         }
