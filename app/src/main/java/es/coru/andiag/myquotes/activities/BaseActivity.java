@@ -27,5 +27,4 @@ public class BaseActivity extends AppCompatActivity {
         }
         setTheme(R.style.AppTheme_Light_NoActionBar);
     }
-
 }

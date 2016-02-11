@@ -1,8 +1,11 @@
 package es.coru.andiag.myquotes.utils.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -15,6 +18,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
@@ -110,9 +114,13 @@ public abstract class QuoteDAO {
         }
     }
 
-    public static void shareQuoteToUs(Quote q) {
+    public static void shareQuoteToUs(Context context, Quote q) {
         if (q.isLocal()) {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String newId = telephonyManager.getDeviceId() + String.valueOf(q.getQuoteId());
+            q.setQuoteId(Long.parseLong(newId));
             myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
+            Toast.makeText(context, context.getResources().getString(R.string.shared), Toast.LENGTH_SHORT).show();
         }
     }
 

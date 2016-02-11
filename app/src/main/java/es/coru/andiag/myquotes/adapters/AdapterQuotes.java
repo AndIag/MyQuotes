@@ -196,7 +196,7 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         copyToClipboard();
                     }
                     if (actions[item].equals(context.getString(R.string.admin_action_share_with_us))) {
-                        QuoteDAO.shareQuoteToUs(qitem);
+                        QuoteDAO.shareQuoteToUs(context, qitem);
                     }
                 }
             });
