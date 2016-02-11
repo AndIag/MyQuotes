@@ -40,7 +40,7 @@
     <!-- Navigation Drawer -->
 
     <string name="nav_all_quote">All Quotes</string>
-    <string name="nav_music_quote">Music Quote</string>
+    <string name="nav_music_quote">Music Quotes</string>
     <string name="nav_book_quote">Book Quotes</string>
     <string name="nav_movie_quote">Movie Quotes"</string>
     <string name="nav_personal_quote">Personal Quotes</string>
