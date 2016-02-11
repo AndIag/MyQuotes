@@ -16,7 +16,7 @@
     <!-- Preferences strings Synchronization -->
     <string name="pref_category_sync">Synchronization</string>
     <string name="pref_title_sync">Sync quotes</string>
-    <string name="pref_sync_language_summary">Languages you want to sync with our database</string>
+    <string name="pref_sync_language_summary">Languages you want to sync from our database</string>
     <string name="pref_title_choose_sync_languages">Languages</string>
     <string-array name="pref_sync_language_titles">
         <item>English</item>
@@ -42,7 +42,7 @@
     <string name="nav_all_quote">All Quotes</string>
     <string name="nav_music_quote">Music Quotes</string>
     <string name="nav_book_quote">Book Quotes</string>
-    <string name="nav_movie_quote">Movie Quotes"</string>
+    <string name="nav_movie_quote">Movie Quotes</string>
     <string name="nav_personal_quote">Personal Quotes</string>
     <string name="nav_share">Share</string>
     <string name="nav_settings">Settings</string>
@@ -65,9 +65,9 @@
 
     <!-- Otros -->
     <string name="music_quote">Music Quote</string>
-    <string name="book_quote">Book Quotes</string>
-    <string name="movie_quote">Movie Quotes"</string>
-    <string name="personal_quote">Personal Quotes</string>
+    <string name="book_quote">Book Quote</string>
+    <string name="movie_quote">Movie Quote"</string>
+    <string name="personal_quote">Personal Quote</string>
 
     <string name="author">Author:</string>
     <string name="quote">Quote:</string>
