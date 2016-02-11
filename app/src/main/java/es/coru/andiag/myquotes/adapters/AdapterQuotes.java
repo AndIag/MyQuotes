@@ -33,7 +33,6 @@ import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final static String TAG = "AdapterQuotes";
-    private final CharSequence[] actions;
     private Context context;
     private QuoteListFragment quoteListFragment;
     private DateFormat dateF;
@@ -43,19 +42,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.quoteListFragment = quoteListFragment;
         dateF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, context.getResources().getConfiguration().locale);
-        if (GlobalPreferences.isAdmin()) {
-            actions = new CharSequence[]{
-                    context.getString(R.string.admin_action_copy),
-                    context.getString(R.string.admin_action_modify),
-                    context.getString(R.string.admin_action_remove),
-                    context.getString(R.string.admin_action_share_with_us)
-            };
-        } else {
-            actions = new CharSequence[]{
-                    context.getString(R.string.admin_action_copy),
-                    context.getString(R.string.admin_action_share_with_us)
-            };
-        }
     }
 
     public List<Quote> getQuoteList() {
@@ -65,11 +51,6 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void updateQuotes(Set<Quote> cL) {
         quoteList.clear();
         quoteList.addAll(cL);
-        notifyDataSetChanged();
-    }
-
-    public void clearQuotes() {
-        quoteList.clear();
         notifyDataSetChanged();
     }
 
@@ -164,10 +145,41 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             context.startActivity(Intent.createChooser(intent, "Share with"));
         }
 
+        private CharSequence[] getActions(boolean isLocal) {
+            if (GlobalPreferences.isAdmin()) {
+                if (isLocal) {
+                    return new CharSequence[]{
+                            context.getString(R.string.admin_action_copy),
+                            context.getString(R.string.admin_action_modify),
+                            context.getString(R.string.admin_action_remove),
+                            context.getString(R.string.admin_action_share_with_us)
+                    };
+                } else {
+                    return new CharSequence[]{
+                            context.getString(R.string.admin_action_copy),
+                            context.getString(R.string.admin_action_modify),
+                            context.getString(R.string.admin_action_remove),
+                    };
+                }
+            } else {
+                if (isLocal) {
+                    return new CharSequence[]{
+                            context.getString(R.string.admin_action_copy),
+                            context.getString(R.string.admin_action_share_with_us)
+                    };
+                } else {
+                    return new CharSequence[]{
+                            context.getString(R.string.admin_action_copy),
+                    };
+                }
+            }
+        }
+
         @Override
         public boolean onLongClick(View view) {
             final Quote qitem = quoteList.get(getAdapterPosition());
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            final CharSequence[] actions = getActions(qitem.isLocal());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setItems(actions, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if (actions[item].equals(context.getString(R.string.admin_action_modify))) {
@@ -180,11 +192,8 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         copyToClipboard();
                     }
                     if (actions[item].equals(context.getString(R.string.admin_action_share_with_us))) {
-                        if (qitem.isLocal()) {
-                            QuoteDAO.shareQuoteToUs(qitem);
-                        }
+                        QuoteDAO.shareQuoteToUs(qitem);
                     }
-                    clearQuotes();
                 }
             });
             AlertDialog alert = builder.create();

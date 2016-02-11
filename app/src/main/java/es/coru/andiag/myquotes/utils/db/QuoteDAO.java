@@ -111,7 +111,9 @@ public abstract class QuoteDAO {
     }
 
     public static void shareQuoteToUs(Quote q) {
-        myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
+        if (q.isLocal()) {
+            myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
+        }
     }
 
     public static void addFirebaseQuote(Quote q) {
