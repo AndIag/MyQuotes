@@ -9,7 +9,7 @@ android {
             applicationId 'es.coru.andiag.myquotes'
             resValue "string", "app_name", "MyQuotes (Lite)"
             minSdkVersion 15
-            targetSdkVersion 22
+            targetSdkVersion 23
             versionCode 0
             versionName "0.1"
         }
@@ -17,7 +17,7 @@ android {
             applicationId 'es.coru.andiag.myquotes.pro'
             resValue "string", "app_name", "MyQuotes"
             minSdkVersion 15
-            targetSdkVersion 22
+            targetSdkVersion 23
             versionCode 0
             versionName "0.1"
         }
@@ -25,7 +25,7 @@ android {
             applicationId 'es.coru.andiag.myquotes.admin'
             resValue "string", "app_name", "MyQuotes (Admin)"
             minSdkVersion 15
-            targetSdkVersion 22
+            targetSdkVersion 23
             versionCode 0
             versionName "0.1"
         }

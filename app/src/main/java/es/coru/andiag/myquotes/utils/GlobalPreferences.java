@@ -17,6 +17,7 @@ public class GlobalPreferences {
 
     public static final String TAG = "GlobalPreferences";
 
+    public static final int APP_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     public final static String FLAVOR_LITE = "lite";
     public final static String FLAVOR_PRO = "pro";
     public final static String FLAVOR_ADMIN = "admin";

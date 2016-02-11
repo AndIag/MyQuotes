@@ -1,10 +1,14 @@
 package es.coru.andiag.myquotes.utils.db;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -19,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import es.coru.andiag.myquotes.R;
+import es.coru.andiag.myquotes.activities.BaseActivity;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
@@ -114,13 +119,17 @@ public abstract class QuoteDAO {
         }
     }
 
-    public static void shareQuoteToUs(Context context, Quote q) {
+    public static void shareQuoteToUs(Context context, View view, Quote q) {
         if (q.isLocal()) {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String newId = telephonyManager.getDeviceId() + String.valueOf(q.getQuoteId());
-            q.setQuoteId(Long.parseLong(newId));
-            myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
-            Toast.makeText(context, context.getResources().getString(R.string.shared), Toast.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                String newId = telephonyManager.getDeviceId() + String.valueOf(q.getQuoteId());
+                q.setQuoteId(Long.parseLong(newId));
+                myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
+                Toast.makeText(context, context.getResources().getString(R.string.shared), Toast.LENGTH_SHORT).show();
+            } else {
+                ((BaseActivity) context).requestFeature(Manifest.permission.READ_PHONE_STATE, view, q);
+            }
         }
     }
 
