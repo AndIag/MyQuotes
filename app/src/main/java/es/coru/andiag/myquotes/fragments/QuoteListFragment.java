@@ -117,9 +117,12 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         Toast.makeText(activityMain, textAuthor.getText() + " : " + textQuote.getText(), Toast.LENGTH_SHORT).show();
         Quote quote = new Quote(textQuote.getText().toString(), t, textAuthor.getText().toString());
         long id = activityMain.getNextFirebaseId();
-        quote.setQuoteId(id);
-        quote.setLanguage(LanguageType.UNSET);
-        QuoteDAO.addFirebaseQuote(quote);
+        if (id >= 0) {
+            quote.setQuoteId(id);
+            quote.setLanguage(LanguageType.UNSET);
+            QuoteDAO.addFirebaseQuote(quote);
+            Toast.makeText(activityMain, getResources().getString(R.string.added), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createQuote(EditText textAuthor, EditText textQuote, QuoteType t) {

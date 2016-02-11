@@ -130,19 +130,12 @@ public class MainActivity extends BaseActivity
 
     //endregion
     //region Solution to get id in case we are in the admin mode
-    private long getSmallestId() {
-        long smallest = Long.MAX_VALUE;
-        for (Quote q : firebaseQuotes) {
-            if (q.getQuoteId() < smallest) {
-                smallest = q.getQuoteId();
-            }
-            if (smallest == 0) break;
-        }
-        if (smallest <= 0) return -1;
-        return smallest - 1;
-    }
 
-    private long getBiggesttId() {
+    /**
+     * @return the next valid id to add a quote as admin
+     */
+    public long getNextFirebaseId() {
+        if (firebaseQuotes == null) return -1;
         long biggest = -1;
         for (Quote q : firebaseQuotes) {
             if (q.getQuoteId() > biggest) {
@@ -151,16 +144,6 @@ public class MainActivity extends BaseActivity
         }
         if (biggest <= 0) return 0;
         return biggest + 1;
-    }
-
-    /**
-     * @return the next valid id to add a quote as admin
-     */
-    public long getNextFirebaseId() {
-        if (firebaseQuotes == null) return -1;
-        long id = getSmallestId();
-        if (id > 0) return id;
-        return getBiggesttId();
     }
     //endregion
 
