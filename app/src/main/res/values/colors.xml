@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#90A4AE</color>
-    <color name="colorPrimaryDark">#607D8B</color>
-    <color name="colorAccent">#99CC00</color>
+    <!-- Light Theme Colors -->
+    <color name="lightPrimary">#8BC34A</color>
+    <color name="lightPrimaryDark">#1B5E20</color>
+    <color name="lightAccent">#CDDC39</color>
 
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="textColorSecondary">#9E9E9E</color>
-    <color name="textColorPrimaryInverse">#DE000000</color>
-    <color name="textColorSecondaryInverse">#9E9E9E</color>
+    <color name="lightBackground">@color/grey100</color>
 
-    <color name="colorPrimaryInverse">#4CAF50</color>
-    <color name="colorPrimaryDarkInverse">#2E7D32</color>
-    <color name="colorAccentInverse">#99CC00</color>
+    <!-- Dark Theme Colors -->
+    <color name="darkPrimary">#8BC34A</color>
+    <color name="darkPrimaryDark">#1B5E20</color>
+    <color name="darkAccent">#CDDC39</color>
+
+    <color name="darkBackground">@color/grey900</color>
+
+    <!-- Orange Theme Colors -->
+
+    <color name="white">#FFFFFF</color>
+    <color name="grey100">#F5F5F5</color>
+    <color name="grey900">#212121</color>
 
     <color name="white_pressed">#757575</color>
     <color name="black_semi_transparent">#B2000000</color>
 
     <!-- CardView -->
     <item name="card_light" type="color">#E0E0E0</item>
-    <item name="card_dark" type="color">#757575</item>
+    <item name="card_dark" type="color">#424242</item>
 
     <!-- CardView -->
-    <item name="back_light" type="color">#999999</item>
-    <item name="back_dark" type="color">#202020</item>
 
-    <!-- Categorias -->
+    <!-- Categories -->
     <item name="music" type="color">#00B0FF</item>
     <item name="music_bar" type="color">#1565C0</item>
     <item name="book" type="color">#FFC400</item>
@@ -35,9 +40,5 @@
     <item name="personal_bar" type="color">#C62828</item>
     <item name="settings" type="color">#607D8B</item>
     <item name="settings_bar" type="color">#37474F</item>
-
-    <item name="text_quote" type="color">#FFFFFFFF</item>
-    <item name="text_author" type="color">#FF000000</item>
-    <item name="text_date" type="color">#AFFFFFFF</item>
 
 </resources>

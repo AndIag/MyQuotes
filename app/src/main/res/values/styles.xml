@@ -1,80 +1,21 @@
 <resources>
+    <!-- Cardview Style -->
     <attr name="cardStyle" format="reference" />
 
-    <!-- Light Themes -->
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
-        <item name="android:textColorPrimaryInverse">@color/textColorPrimary</item>
-        <item name="android:textColorSecondaryInverse">@color/textColorSecondary</item>
-        <item name="book">@color/book</item>
-        <item name="book_bar">@color/book_bar</item>
-        <item name="music">@color/music</item>
-        <item name="music_bar">@color/music_bar</item>
-        <item name="movie">@color/movie</item>
-        <item name="movie_bar">@color/movie_bar</item>
-        <item name="personal">@color/personal</item>
-        <item name="personal_bar">@color/personal_bar</item>
-        <item name="settings">@color/settings</item>
-        <item name="settings_bar">@color/settings_bar</item>
-
-        <item name="cardStyle">@style/CardViewStyle.Light</item>
-    </style>
-
-    <style name="CardViewStyle.Light" parent="CardView">
+    <style name="CardViewStyle" parent="CardView">
         <item name="cardCornerRadius">8dp</item>
         <item name="cardElevation">4dp</item>
         <item name="contentPadding">1dp</item>
         <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="CardViewStyle.Light">
         <item name="cardBackgroundColor">@color/card_light</item>
     </style>
 
-    <style name="AppTheme.Light.NoActionBar" parent="AppTheme.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <!-- Dark theme -->
-    <style name="AppTheme.Dark" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/colorPrimaryInverse</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkInverse</item>
-        <item name="colorAccent">@color/colorAccentInverse</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse</item>
-        <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse</item>
-        <item name="book">@color/music</item>
-        <item name="book_bar">@color/music_bar</item>
-        <item name="music">@color/book</item>
-        <item name="music_bar">@color/book_bar</item>
-        <item name="movie">@color/personal</item>
-        <item name="movie_bar">@color/personal_bar</item>
-        <item name="personal">@color/movie</item>
-        <item name="personal_bar">@color/movie_bar</item>
-        <item name="settings">@color/settings</item>
-        <item name="settings_bar">@color/settings_bar</item>
-
-        <item name="cardStyle">@style/CardViewStyle.Dark</item>
-    </style>
-
-    <style name="CardViewStyle.Dark" parent="CardView">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="contentPadding">1dp</item>
-        <item name="cardUseCompatPadding">true</item>
+    <style name="CardViewStyle.Dark">
         <item name="cardBackgroundColor">@color/card_dark</item>
     </style>
-
-    <style name="AppTheme.Dark.NoActionBar" parent="AppTheme.Dark">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <!--  -->
-
 
     <!-- Common things. -->
     <style name="menu_labels_style">
@@ -82,6 +23,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- EditTexts -->
     <style name="EditTexts">
         <item name="colorControlNormal">#9e9e9e</item>
         <item name="colorControlActivated">@color/white</item>

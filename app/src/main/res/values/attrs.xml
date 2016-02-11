@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="backgroundColor" format="color" />
+
     <attr name="book" format="reference" />
     <attr name="book_bar" format="reference" />
     <attr name="music" format="reference" />

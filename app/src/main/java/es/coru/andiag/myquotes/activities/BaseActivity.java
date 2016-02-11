@@ -1,12 +1,14 @@
 package es.coru.andiag.myquotes.activities;
 
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import es.coru.andiag.myquotes.R;
@@ -28,14 +30,22 @@ public class BaseActivity extends AppCompatActivity {
 
     private void updateTheme() { //Change theme to all activities that extends BaseActivity
         if (GlobalPreferences.getTheme(getApplicationContext()) == GlobalPreferences.THEME_DARK) {
-            setTheme(R.style.AppTheme_Dark_NoActionBar);
+            setTheme(R.style.AppTheme_Dark);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                getWindow().setStatusBarColor(getResources().getColor(R.color.darkPrimaryDark));
+            }
             return;
         }
         if (GlobalPreferences.getTheme(getApplicationContext()) == GlobalPreferences.THEME_LIGHT) {
-            setTheme(R.style.AppTheme_Light_NoActionBar);
+            setTheme(R.style.AppTheme);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                getWindow().setStatusBarColor(getResources().getColor(R.color.lightPrimaryDark));
+            }
             return;
         }
-        setTheme(R.style.AppTheme_Light_NoActionBar);
+        setTheme(R.style.AppTheme);
     }
 
     public void requestFeature(String requiredFeature, View view, Quote quote) {
