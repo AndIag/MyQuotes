@@ -14,16 +14,16 @@
 
         <item name="cardStyle">@style/CardViewStyle.Light</item>
 
-        <item name="book">@color/book</item>
-        <item name="book_bar">@color/book_bar</item>
-        <item name="music">@color/music</item>
-        <item name="music_bar">@color/music_bar</item>
-        <item name="movie">@color/movie</item>
-        <item name="movie_bar">@color/movie_bar</item>
-        <item name="personal">@color/personal</item>
-        <item name="personal_bar">@color/personal_bar</item>
-        <item name="settings">@color/settings</item>
-        <item name="settings_bar">@color/settings_bar</item>
+        <item name="book">@color/book_bar</item>
+        <item name="book_bar">@color/book</item>
+        <item name="music">@color/music_bar</item>
+        <item name="music_bar">@color/music</item>
+        <item name="movie">@color/movie_bar</item>
+        <item name="movie_bar">@color/movie</item>
+        <item name="personal">@color/personal_bar</item>
+        <item name="personal_bar">@color/personal</item>
+        <item name="settings">@color/settings_bar</item>
+        <item name="settings_bar">@color/settings</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
@@ -37,14 +37,14 @@
 
         <item name="cardStyle">@style/CardViewStyle.Dark</item>
 
-        <item name="book">@color/music</item>
-        <item name="book_bar">@color/music_bar</item>
-        <item name="music">@color/book</item>
-        <item name="music_bar">@color/book_bar</item>
-        <item name="movie">@color/personal</item>
-        <item name="movie_bar">@color/personal_bar</item>
-        <item name="personal">@color/movie</item>
-        <item name="personal_bar">@color/movie_bar</item>
+        <item name="book">@color/book</item>
+        <item name="book_bar">@color/book_bar</item>
+        <item name="music">@color/music</item>
+        <item name="music_bar">@color/music_bar</item>
+        <item name="movie">@color/movie</item>
+        <item name="movie_bar">@color/movie_bar</item>
+        <item name="personal">@color/personal</item>
+        <item name="personal_bar">@color/personal_bar</item>
         <item name="settings">@color/settings</item>
         <item name="settings_bar">@color/settings_bar</item>
     </style>
