@@ -11,6 +11,7 @@
         <item name="windowNoTitle">true</item>
 
         <item name="backgroundColor">@color/lightBackground</item>
+        <item name="side_nav_bar_gradient">@drawable/side_nav_bar_light</item>
 
         <item name="cardStyle">@style/CardViewStyle.Light</item>
 
@@ -34,6 +35,7 @@
         <item name="windowNoTitle">true</item>
 
         <item name="backgroundColor">@color/darkBackground</item>
+        <item name="side_nav_bar_gradient">@drawable/side_nav_bar_dark</item>
 
         <item name="cardStyle">@style/CardViewStyle.Dark</item>
 
