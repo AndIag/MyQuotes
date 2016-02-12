@@ -38,6 +38,7 @@ public abstract class QuoteDAO {
     private final static String TAG = "QuoteDAO";
     private static final Firebase myFirebaseRef;
     private static final Firebase myFirebaseRefShare;
+    private static ValueEventListener listener;
 
     static {
         myFirebaseRef = new Firebase("https://myquotesandroid.firebaseio.com/");
@@ -86,28 +87,35 @@ public abstract class QuoteDAO {
 
     //endregion
     //region Firebase Methods
+    public static void cleanListener(){
+        if(listener!=null){
+            myFirebaseRef.removeEventListener(listener);
+        }
+    }
     public static void loadFirebaseData(final MainActivity activity) {
         if (GlobalPreferences.mustSync(activity)) {
-            myFirebaseRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<Quote> quotes = new ArrayList<>();
-                    Set<Integer> languages = GlobalPreferences.getSyncLanguages(activity);
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Quote quote = snapshot.getValue(Quote.class);
-                        quote.setIsLocal(false);
-                        if (languages.contains(quote.getLanguage().ordinal())) {
-                            quotes.add(quote);
+            listener = myFirebaseRef.addValueEventListener(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<Quote> quotes = new ArrayList<>();
+                            Set<Integer> languages = GlobalPreferences.getSyncLanguages(activity);
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Quote quote = snapshot.getValue(Quote.class);
+                                quote.setIsLocal(false);
+                                if (languages.contains(quote.getLanguage().ordinal())) {
+                                    quotes.add(quote);
+                                }
+                            }
+                            activity.addQuotes(quotes);
                         }
-                    }
-                    activity.addQuotes(quotes);
-                }
+        
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
 
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
 
-                }
-            });
         }
     }
 

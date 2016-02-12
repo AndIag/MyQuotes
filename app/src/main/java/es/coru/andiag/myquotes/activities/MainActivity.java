@@ -117,6 +117,7 @@ public class MainActivity extends BaseActivity
     public void addQuotes(List<Quote> quoteList) {
         firebaseQuotes.addAll(quoteList);
         notifyListeners();
+        QuoteDAO.cleanListener(); //Remove firebase listener to save battery
     }
 
     public void removeQuote(Quote q) {
