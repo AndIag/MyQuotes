@@ -260,7 +260,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_quote_list, container, false);
-        activityMain.changeBarsColors(type.toString(), rootView);
+        activityMain.changeBarsColors(type, rootView);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         menu = (FloatingActionMenu) rootView.findViewById(R.id.add_menu);

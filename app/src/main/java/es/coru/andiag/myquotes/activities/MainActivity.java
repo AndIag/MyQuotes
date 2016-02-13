@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    public void changeBarsColors(String type, View rootView) {
+    public void changeBarsColors(String type) {
         final ColorDrawable actionBarBackground = new ColorDrawable();
         final ColorDrawable toolbarBarBackground = new ColorDrawable();
         ActionBar actionBar = getSupportActionBar();

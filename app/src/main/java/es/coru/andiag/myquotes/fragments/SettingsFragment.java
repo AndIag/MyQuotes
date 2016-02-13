@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View rootView = super.onCreateView(layoutInflater, viewGroup, savedInstanceState);
-        ((MainActivity) getActivity()).changeBarsColors(GlobalPreferences.FRAGMENT_TYPE_SETTINGS, rootView);
+        ((MainActivity) getActivity()).changeBarsColors(GlobalPreferences.FRAGMENT_TYPE_SETTINGS);
         return rootView;
     }
 
