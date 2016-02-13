@@ -1,19 +1,21 @@
 package es.coru.andiag.myquotes.entities;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Created by iagoc on 06/02/2016.
  */
-public class Quote implements Serializable {
+public class Quote implements Serializable, Comparable {
 
     private long quoteId;
     private String quote;
     private QuoteType type;
     private LanguageType language;
     private String author;
-    private Calendar creationDate;
+    private long creationDate;
     private boolean isLocal;
 
     public Quote() {
@@ -23,7 +25,7 @@ public class Quote implements Serializable {
         this.quote = quote;
         this.type = type;
         this.author = author;
-        this.creationDate = Calendar.getInstance();
+        this.creationDate = Calendar.getInstance().getTimeInMillis();
     }
 
     public Quote(long id, String quote, QuoteType type, String author) {
@@ -31,7 +33,7 @@ public class Quote implements Serializable {
         this.quote = quote;
         this.type = type;
         this.author = author;
-        this.creationDate = Calendar.getInstance();
+        this.creationDate = Calendar.getInstance().getTimeInMillis();
     }
 
     public long getQuoteId() {
@@ -66,11 +68,11 @@ public class Quote implements Serializable {
         this.author = author;
     }
 
-    public Calendar getCreationDate() {
+    public long getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Calendar creationDate) {
+    public void setCreationDate(long creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -107,5 +109,13 @@ public class Quote implements Serializable {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (isLocal ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object another) {
+        Quote other = (Quote) another;
+        if (getCreationDate() < other.getCreationDate()) return 1;
+        if (getCreationDate() > other.getCreationDate()) return -1;
+        return 0;
     }
 }

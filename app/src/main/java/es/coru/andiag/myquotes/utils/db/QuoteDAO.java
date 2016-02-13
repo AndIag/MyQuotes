@@ -18,7 +18,6 @@ import com.firebase.client.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +47,6 @@ public abstract class QuoteDAO {
     //region LocalDB Methods
     public static HashSet<Quote> getQuotes(SQLiteDatabase db) {
         HashSet<Quote> arrayList = new HashSet<>();
-        Calendar c = Calendar.getInstance();
         Quote quote;
 
         //Search local quotes in db
@@ -62,8 +60,7 @@ public abstract class QuoteDAO {
             quote.setAuthor(cursor.getString(cursor.getColumnIndex(DBHelper.AUTHOR)));
             quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
             quote.setIsLocal(true);
-            c.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
-            quote.setCreationDate(c);
+            quote.setCreationDate(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
             arrayList.add(quote);
         }
         if (cursor != null) cursor.close();
@@ -76,7 +73,7 @@ public abstract class QuoteDAO {
         ContentValues c = new ContentValues();
         c.put(DBHelper.QUOTE, quote.getQuote());
         c.put(DBHelper.AUTHOR, quote.getAuthor());
-        c.put(DBHelper.CREATION_DATE, quote.getCreationDate().getTimeInMillis() / 1000);
+        c.put(DBHelper.CREATION_DATE, quote.getCreationDate() / 1000);
         c.put(DBHelper.TYPE, quote.getType().toString());
         return db.insert(DBHelper.QUOTES_TABLE, null, c);
     }
@@ -152,7 +149,7 @@ public abstract class QuoteDAO {
 
         private long quoteId;
         private String author;
-        private Calendar creationDate;
+        private long creationDate;
         private int language;
         private String quote;
         private int type;
@@ -185,11 +182,11 @@ public abstract class QuoteDAO {
             this.author = author;
         }
 
-        public Calendar getCreationDate() {
+        public long getCreationDate() {
             return creationDate;
         }
 
-        public void setCreationDate(Calendar creationDate) {
+        public void setCreationDate(long creationDate) {
             this.creationDate = creationDate;
         }
 

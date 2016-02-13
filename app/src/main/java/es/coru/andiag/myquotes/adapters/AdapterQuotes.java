@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -45,13 +47,19 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         dateF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, context.getResources().getConfiguration().locale);
     }
 
+    public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
+        List<T> list = new ArrayList<T>(c);
+        java.util.Collections.sort(list);
+        return list;
+    }
+
     public List<Quote> getQuoteList() {
         return quoteList;
     }
 
     public void updateQuotes(Set<Quote> cL) {
         quoteList.clear();
-        quoteList.addAll(cL);
+        quoteList.addAll(asSortedList(cL));
         notifyDataSetChanged();
     }
 
@@ -100,8 +108,14 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.left.setColorFilter(color);
         holder.textAuthor.setText(q.getAuthor());
         holder.textQuote.setText(q.getQuote());
-        String date = dateF.format(q.getCreationDate().getTime());
-        holder.textCreationDate.setText(date);
+        if (q.isLocal()) {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(q.getCreationDate());
+            String date = dateF.format(c.getTime());
+            holder.textCreationDate.setText(date);
+        } else {
+            holder.textCreationDate.setText("");
+        }
         holder.isLocal = q.isLocal();
     }
 
