@@ -26,6 +26,7 @@ public class GlobalPreferences {
     public static final String PREF_THEME_KEY = "theme_list";
     public static final String PREF_MUST_SYNC = "must_sync";
     public static final String PREF_SYNC_LANGUAGES = "sync_languages";
+    public static final String FRAGMENT_TYPE_SETTINGS = "settings";
     public static Set<String> defaultSyncLanguages;
 
     static {

@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.activities.MainActivity;
@@ -39,6 +42,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onPause() {
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(layoutInflater, viewGroup, savedInstanceState);
+        ((MainActivity) getActivity()).changeBarsColors(GlobalPreferences.FRAGMENT_TYPE_SETTINGS, rootView);
+        return rootView;
     }
 
     @Override

@@ -32,6 +32,7 @@ import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
 import es.coru.andiag.myquotes.fragments.QuoteListFragment;
 import es.coru.andiag.myquotes.fragments.SettingsFragment;
+import es.coru.andiag.myquotes.utils.GlobalPreferences;
 import es.coru.andiag.myquotes.utils.db.DBHelper;
 import es.coru.andiag.myquotes.utils.db.QuoteDAO;
 import es.coru.andiag.myquotes.utils.db.QuoteListListener;
@@ -183,6 +184,32 @@ public class MainActivity extends BaseActivity
         toolbarBarBackground.setColor(getResources().getColor(colorDark.resourceId));
         floatingMenu.setMenuButtonColorNormal(getResources().getColor(color.resourceId));
         floatingMenu.setMenuButtonColorPressed(getResources().getColor(colorDark.resourceId));
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(actionBarBackground);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(toolbarBarBackground.getColor());
+        }
+    }
+
+    public void changeBarsColors(String type, View rootView) {
+        final ColorDrawable actionBarBackground = new ColorDrawable();
+        final ColorDrawable toolbarBarBackground = new ColorDrawable();
+        ActionBar actionBar = getSupportActionBar();
+
+        TypedValue color = new TypedValue();
+        TypedValue colorDark = new TypedValue();
+
+        if (type == GlobalPreferences.FRAGMENT_TYPE_SETTINGS) {
+            getTheme().resolveAttribute(R.attr.settings, color, true);
+            getTheme().resolveAttribute(R.attr.settings_bar, colorDark, true);
+        } else {//Default Values
+            this.getTheme().resolveAttribute(R.attr.colorPrimary, color, true);
+            this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorDark, true);
+        }
+
+        actionBarBackground.setColor(getResources().getColor(color.resourceId));
+        toolbarBarBackground.setColor(getResources().getColor(colorDark.resourceId));
         if (actionBar != null) {
             actionBar.setBackgroundDrawable(actionBarBackground);
         }
