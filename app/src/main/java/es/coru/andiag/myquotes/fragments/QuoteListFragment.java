@@ -3,7 +3,7 @@ package es.coru.andiag.myquotes.fragments;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +20,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
-import com.github.johnpersano.supertoasts.util.OnClickWrapper;
 
 import java.util.Set;
 
@@ -56,6 +53,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
     private FloatingActionMenu menu;
     private FloatingActionButton music, book, personal, movie;
+    private Snackbar snackbar;
 
     private DBHelper dbHelper;
     private SQLiteDatabase database;
@@ -256,7 +254,7 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_quote_list, container, false);
@@ -299,28 +297,24 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
                 activityMain.notifyDatabaseChange();
 
-                SuperActivityToast superActivityToast = new SuperActivityToast(activityMain, SuperToast.Type.BUTTON);
-                superActivityToast.setDuration(SuperToast.Duration.EXTRA_LONG);
-                superActivityToast.setText(getString(R.string.removed));
-                superActivityToast.setButtonIcon(SuperToast.Icon.Dark.UNDO, getString(R.string.undo));
-                superActivityToast.setOnClickWrapper(new OnClickWrapper("superactivitytoast", new SuperToast.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view, Parcelable token) {
-                        if (removedQuote != null) {
-                            if (removedQuote.isLocal()) {
-                                database = dbHelper.getWritableDatabase();
-                                QuoteDAO.addQuote(database, removedQuote);
-                                database.close();
-                                activityMain.notifyDatabaseChange();
+                if (snackbar != null) {
+                    snackbar.dismiss();
+                }
+                Snackbar.make(container, getResources().getString(R.string.removed), Snackbar.LENGTH_LONG)
+                        .setAction(getResources().getString(R.string.undo), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (removedQuote != null) {
+                                    if (removedQuote.isLocal()) {
+                                        database = dbHelper.getWritableDatabase();
+                                        QuoteDAO.addQuote(database, removedQuote);
+                                        database.close();
+                                        activityMain.notifyDatabaseChange();
+                                    }
+                                    removedQuote = null;
+                                }
                             }
-                            removedQuote = null;
-                        }
-                    }
-
-                }));
-                superActivityToast.show();
-
+                        }).show();
             }
         };
 
