@@ -34,7 +34,7 @@
     <string name="pref_title_choose_sync_languages">Lenguajes</string>
     <string name="pref_title_sync">Sincronizar quotes</string>
     <string name="pref_title_theme">Tema</string>
-    <string name="removed">Eliminar completado.</string>
+    <string name="removed">Eliminado correctamente.</string>
     <string name="section_comunication">Comunicación</string>
     <string name="section_configuration">Configuración</string>
     <string name="shared">Quote compartida correctamente</string>
