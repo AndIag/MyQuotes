@@ -17,6 +17,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,6 +47,15 @@ public abstract class QuoteDAO {
     }
 
     //region LocalDB Methods
+    private static URL getURL(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static HashSet<Quote> getQuotes(SQLiteDatabase db) {
         HashSet<Quote> arrayList = new HashSet<>();
         Quote quote;
@@ -61,6 +72,7 @@ public abstract class QuoteDAO {
             quote.setType(QuoteType.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.TYPE))));
             quote.setIsLocal(true);
             quote.setCreationDate(cursor.getLong(cursor.getColumnIndex(DBHelper.CREATION_DATE)) * 1000);
+            quote.setUrl(getURL(cursor.getString(cursor.getColumnIndex(DBHelper.URL))));
             arrayList.add(quote);
         }
         if (cursor != null) cursor.close();
@@ -154,6 +166,7 @@ public abstract class QuoteDAO {
         private int language;
         private String quote;
         private int type;
+        private String url;
 
         public QuoteDTO(Quote q) {
             this.quoteId = q.getQuoteId();
@@ -161,6 +174,7 @@ public abstract class QuoteDAO {
             this.creationDate = q.getCreationDate();
             this.quote = q.getQuote();
             this.type = q.getType().ordinal();
+            this.url = q.getUrl().toString();
             this.language = LanguageType.UNSET.ordinal();
             if (q.getLanguage() != null) {
                 this.language = q.getLanguage().ordinal();
