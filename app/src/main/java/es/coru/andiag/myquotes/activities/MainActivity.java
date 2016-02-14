@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -30,6 +31,7 @@ import java.util.List;
 import es.coru.andiag.myquotes.R;
 import es.coru.andiag.myquotes.entities.Quote;
 import es.coru.andiag.myquotes.entities.QuoteType;
+import es.coru.andiag.myquotes.fragments.AboutFragment;
 import es.coru.andiag.myquotes.fragments.QuoteListFragment;
 import es.coru.andiag.myquotes.fragments.SettingsFragment;
 import es.coru.andiag.myquotes.utils.GlobalPreferences;
@@ -319,6 +321,9 @@ public class MainActivity extends BaseActivity
                         .commit();
                 return true;
             case R.id.action_about:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, new AboutFragment())
+                        .commit();
                 return true;
         }
 
@@ -370,4 +375,9 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void onGoogleButtonClick(View view) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/112257302862182562124/posts")));
+    }
+
 }
