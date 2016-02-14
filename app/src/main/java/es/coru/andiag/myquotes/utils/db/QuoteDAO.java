@@ -75,6 +75,7 @@ public abstract class QuoteDAO {
         c.put(DBHelper.AUTHOR, quote.getAuthor());
         c.put(DBHelper.CREATION_DATE, quote.getCreationDate() / 1000);
         c.put(DBHelper.TYPE, quote.getType().toString());
+        c.put(DBHelper.URL, "");
         return db.insert(DBHelper.QUOTES_TABLE, null, c);
     }
 
