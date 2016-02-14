@@ -40,5 +40,7 @@
     <item name="personal_bar" type="color">#C62828</item>
     <item name="settings" type="color">#607D8B</item>
     <item name="settings_bar" type="color">#37474F</item>
+    <item name="about" type="color">#673AB7</item>
+    <item name="about_bar" type="color">#311B92</item>
 
 </resources>

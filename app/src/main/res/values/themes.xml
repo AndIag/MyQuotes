@@ -25,6 +25,8 @@
         <item name="personal_bar">@color/personal</item>
         <item name="settings">@color/settings_bar</item>
         <item name="settings_bar">@color/settings</item>
+        <item name="about">@color/about_bar</item>
+        <item name="about_bar">@color/about</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
@@ -49,6 +51,8 @@
         <item name="personal_bar">@color/personal_bar</item>
         <item name="settings">@color/settings</item>
         <item name="settings_bar">@color/settings_bar</item>
+        <item name="about">@color/about</item>
+        <item name="about_bar">@color/about_bar</item>
     </style>
 
 </resources>

@@ -228,6 +228,14 @@ public abstract class QuoteDAO {
         public void setType(int type) {
             this.type = type;
         }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 
 }

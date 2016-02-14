@@ -13,4 +13,6 @@
     <attr name="personal_bar" format="reference" />
     <attr name="settings" format="reference" />
     <attr name="settings_bar" format="reference" />
+    <attr name="about" format="reference" />
+    <attr name="about_bar" format="reference" />
 </resources>

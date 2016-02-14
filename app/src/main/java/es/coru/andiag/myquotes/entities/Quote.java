@@ -3,7 +3,6 @@ package es.coru.andiag.myquotes.entities;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
@@ -97,15 +96,6 @@ public class Quote implements Serializable, Comparable {
 
     public URL getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        try {
-            this.url = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            this.url = null;
-        }
     }
 
     public void setUrl(URL url) {

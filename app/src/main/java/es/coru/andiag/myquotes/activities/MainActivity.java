@@ -202,12 +202,19 @@ public class MainActivity extends BaseActivity
         TypedValue color = new TypedValue();
         TypedValue colorDark = new TypedValue();
 
-        if (type == GlobalPreferences.FRAGMENT_TYPE_SETTINGS) {
-            getTheme().resolveAttribute(R.attr.settings, color, true);
-            getTheme().resolveAttribute(R.attr.settings_bar, colorDark, true);
-        } else {//Default Values
-            this.getTheme().resolveAttribute(R.attr.colorPrimary, color, true);
-            this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorDark, true);
+        switch (type) {
+            case GlobalPreferences.FRAGMENT_TYPE_SETTINGS:
+                getTheme().resolveAttribute(R.attr.settings, color, true);
+                getTheme().resolveAttribute(R.attr.settings_bar, colorDark, true);
+                break;
+            case GlobalPreferences.FRAGMENT_TYPE_ABOUT:
+                getTheme().resolveAttribute(R.attr.about, color, true);
+                getTheme().resolveAttribute(R.attr.about_bar, colorDark, true);
+                break;
+            default: //Default Values
+                this.getTheme().resolveAttribute(R.attr.colorPrimary, color, true);
+                this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorDark, true);
+                break;
         }
 
         actionBarBackground.setColor(getResources().getColor(color.resourceId));
