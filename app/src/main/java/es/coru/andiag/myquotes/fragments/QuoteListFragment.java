@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.Set;
 
@@ -269,6 +272,20 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
         personal = (FloatingActionButton) rootView.findViewById(R.id.sub_personal);
 
         setOnClickListenersToMenu();
+
+        AdView mAdView = (AdView) rootView.findViewById(R.id.adView);
+        if (GlobalPreferences.isLite()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+            ((RelativeLayout) rootView).removeView(menu);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) menu.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            menu.setLayoutParams(params);
+            ((RelativeLayout) rootView).addView(menu);
+        }
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
