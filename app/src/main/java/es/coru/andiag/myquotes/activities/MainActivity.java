@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -263,8 +264,19 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setPadding(0, getStatusBarHeight(), 0, 0);
 
         if (savedInstanceState==null) onNavigationItemSelected(navigationView.getMenu().getItem(0));
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
@@ -343,22 +355,26 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment f = QuoteListFragment.newInstance(0, QuoteType.DEFAULT);
-
+        Drawable image = getResources().getDrawable(R.drawable.nav_default);
         switch (id) {
             default:
                 f = QuoteListFragment.newInstance(0, QuoteType.DEFAULT);
                 break;
             case R.id.nav_music:
                 f = QuoteListFragment.newInstance(1, QuoteType.MUSIC);
+                image = getResources().getDrawable(R.drawable.nav_music);
                 break;
             case R.id.nav_book:
                 f = QuoteListFragment.newInstance(2, QuoteType.BOOK);
+                image = getResources().getDrawable(R.drawable.nav_book);
                 break;
             case R.id.nav_movies:
                 f = QuoteListFragment.newInstance(3, QuoteType.MOVIE);
+                image = getResources().getDrawable(R.drawable.nav_movie);
                 break;
             case R.id.nav_personal:
                 f = QuoteListFragment.newInstance(4, QuoteType.PERSONAL);
+                image = getResources().getDrawable(R.drawable.nav_personal);
                 break;
             case R.id.nav_share:
                 final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
@@ -379,7 +395,11 @@ public class MainActivity extends BaseActivity
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headView = navigationView.getHeaderView(0);
+        headView.setBackground(image);
         return true;
     }
 

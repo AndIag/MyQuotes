@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
     <!-- =================== -->
     <!-- Application themes  -->
     <!-- =================== -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/lightPrimary</item>
         <item name="colorPrimaryDark">@color/lightPrimaryDark</item>
         <item name="colorAccent">@color/lightAccent</item>
