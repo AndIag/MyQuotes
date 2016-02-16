@@ -174,7 +174,10 @@ public abstract class QuoteDAO {
             this.creationDate = q.getCreationDate();
             this.quote = q.getQuote();
             this.type = q.getType().ordinal();
-            this.url = q.getUrl().toString();
+            this.url = "";
+            if (q.getUrl() != null) {
+                this.url = q.getUrl().toString();
+            }
             this.language = LanguageType.UNSET.ordinal();
             if (q.getLanguage() != null) {
                 this.language = q.getLanguage().ordinal();
