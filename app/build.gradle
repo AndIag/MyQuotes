@@ -23,7 +23,7 @@ android {
         }
         admin {
             applicationId 'es.coru.andiag.myquotes.admin'
-            resValue "string", "app_name", "MyQuotes (Admin)"
+            resValue "string", "app_name", "Admin"
             minSdkVersion 16
             targetSdkVersion 23
             versionCode 0
