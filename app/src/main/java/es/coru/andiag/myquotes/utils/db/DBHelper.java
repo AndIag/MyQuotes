@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TYPE = "type";
     public static final String URL = "url";
     private final static String TAG = "DBHelper";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     public DBHelper(Context context) {
         super(context, "quotes.sqlite", null, VERSION);
