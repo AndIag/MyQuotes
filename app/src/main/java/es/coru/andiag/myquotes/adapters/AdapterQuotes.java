@@ -108,6 +108,8 @@ public class AdapterQuotes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.left.setColorFilter(color);
         holder.textAuthor.setText(q.getAuthor());
         holder.textQuote.setText(q.getQuote());
+        context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, tcolor, true);
+        holder.buttonShare.setColorFilter(context.getResources().getColor(tcolor.resourceId));
         if (q.isLocal()) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(q.getCreationDate());

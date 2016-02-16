@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light Theme Colors -->
-    <color name="lightPrimary">#1B5E20</color>
-    <color name="lightPrimaryDark">#8BC34A</color>
+    <color name="lightPrimary">#8BC34A</color>
+    <color name="lightPrimaryDark">#1B5E20</color>
     <color name="lightAccent">#CDDC39</color>
 
     <color name="lightBackground">@color/grey100</color>
@@ -24,23 +24,37 @@
     <color name="black_semi_transparent">#B2000000</color>
 
     <!-- CardView -->
-    <item name="card_light" type="color">#E0E0E0</item>
+    <item name="card_light" type="color">#BDBDBD</item>
     <item name="card_dark" type="color">#424242</item>
 
     <!-- CardView -->
 
-    <!-- Categories -->
-    <item name="music" type="color">#00B0FF</item>
-    <item name="music_bar" type="color">#1565C0</item>
-    <item name="book" type="color">#FF9800</item>
-    <item name="book_bar" type="color">#F57C00</item>
-    <item name="movie" type="color">#00E676</item>
-    <item name="movie_bar" type="color">#2E7D32</item>
-    <item name="personal" type="color">#FF1744</item>
-    <item name="personal_bar" type="color">#C62828</item>
-    <item name="settings" type="color">#607D8B</item>
-    <item name="settings_bar" type="color">#37474F</item>
-    <item name="about" type="color">#673AB7</item>
-    <item name="about_bar" type="color">#311B92</item>
+    <!-- Categories Theme Dark -->
+    <item name="music_dark" type="color">#00B0FF</item>
+    <item name="music_bar_dark" type="color">#1565C0</item>
+    <item name="book_dark" type="color">#FF9800</item>
+    <item name="book_bar_dark" type="color">#F57C00</item>
+    <item name="movie_dark" type="color">#00E676</item>
+    <item name="movie_bar_dark" type="color">#2E7D32</item>
+    <item name="personal_dark" type="color">#FF1744</item>
+    <item name="personal_bar_dark" type="color">#C62828</item>
+    <item name="settings_dark" type="color">#607D8B</item>
+    <item name="settings_bar_dark" type="color">#37474F</item>
+    <item name="about_dark" type="color">#673AB7</item>
+    <item name="about_bar_dark" type="color">#311B92</item>
+
+    <!-- Categories Theme Light -->
+    <item name="music" type="color">#448AFF</item>
+    <item name="music_bar" type="color">#2962FF</item>
+    <item name="book" type="color">#FFAB40</item>
+    <item name="book_bar" type="color">#FF6D00</item>
+    <item name="movie" type="color">#69F0AE</item>
+    <item name="movie_bar" type="color">#00C853</item>
+    <item name="personal" type="color">#FF5252</item>
+    <item name="personal_bar" type="color">#D50000</item>
+    <item name="settings" type="color">#B0BEC5</item>
+    <item name="settings_bar" type="color">#78909C</item>
+    <item name="about" type="color">#7C4DFF</item>
+    <item name="about_bar" type="color">#6200EA</item>
 
 </resources>
