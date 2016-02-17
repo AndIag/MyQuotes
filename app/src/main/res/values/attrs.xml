@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="backgroundColor" format="color" />
-    <attr name="side_nav_bar_gradient" format="reference"/>
+    <attr name="side_nav_bar_gradient" format="reference" />
 
     <attr name="book" format="reference" />
     <attr name="book_bar" format="reference" />

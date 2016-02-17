@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:icon="@drawable/left_white"
-            android:title="@string/nav_all_quote" />
+            android:title="@string/all_quotes" />
         <item
             android:id="@+id/nav_music"
             android:icon="@drawable/music"
-            android:title="@string/nav_music_quote" />
+            android:title="@string/music_quote" />
         <item
             android:id="@+id/nav_book"
             android:icon="@drawable/book"
-            android:title="@string/nav_book_quote" />
+            android:title="@string/book_quote" />
         <item
             android:id="@+id/nav_movies"
             android:icon="@drawable/movie"
-            android:title="@string/nav_movie_quote" />
+            android:title="@string/movie_quote" />
         <item
             android:id="@+id/nav_personal"
             android:icon="@drawable/personal"
-            android:title="@string/nav_personal_quote" />
+            android:title="@string/personal_quote" />
     </group>
 
     <item android:title="@string/section_comunication">

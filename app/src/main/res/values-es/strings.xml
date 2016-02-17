@@ -1,33 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyQuotes</string>
     <string name="action_search">Buscar</string>
     <string name="admin_action_copy">Copiar al portapapeles</string>
     <string name="admin_action_modify">Modificar</string>
     <string name="admin_action_remove">Eliminar</string>
     <string name="admin_action_share_with_us">Enviar a Andiag</string>
-    <string name="alert">Alerta</string>
     <string name="author">Autor:</string>
-    <string name="book_quote">Quote de libros</string>
     <string name="button_cancel">Cancelar</string>
     <string name="button_ok">Ok</string>
     <string name="clipboard">Quote copiada al portapapeles.</string>
     <string name="dialog_input">Introduce la quote:</string>
     <string name="error_edit">Requerido!</string>
-    <string name="lite_version">No puedes cambiar este valor con la version lite.</string>
-    <string name="movie_quote">Quote de películas</string>
-    <string name="music_quote">Quote de música</string>
     <string name="nav_about">Acerca de</string>
-    <string name="nav_all_quote">Todas las quotes</string>
-    <string name="nav_book_quote">Quotes de libros</string>
-    <string name="nav_movie_quote">Quotes de películas</string>
-    <string name="nav_music_quote">Quotes de música</string>
-    <string name="nav_personal_quote">Quotes personales</string>
     <string name="nav_settings">Ajustes</string>
     <string name="nav_share">Compartir</string>
     <string name="navigation_drawer_close">Cerrar navigation drawer</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
-    <string name="personal_quote">Quote personal</string>
     <string name="pref_category_appearance">Apariencia</string>
     <string name="pref_category_sync">Sincronización</string>
     <string name="pref_sync_language_summary">Lenguajes que sincronizar de nuestra base de datos</string>
@@ -48,4 +36,10 @@
         <item>Claro</item>
         <item>Oscuro</item>
     </string-array>
+    <string name="added">Quote añadida</string>
+    <string name="cant_share">No se pueden compartir Quote sin proporcionar permiso</string>
+    <string name="fabicon">Una implementación de Floating Action Button con mas caracteristicas</string>
+    <string name="firebase">Librería proporcionada por Firebase para acceso a la base de datos</string>
+    <string name="permission_explication">Este permiso es necesario para compartir Quotes</string>
+    <string name="recyclerview_animators">Libreria para crear de una manera sencilla RecyclerViews con animaciones</string>
 </resources>
