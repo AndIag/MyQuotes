@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
+    <!-- =================== -->
+    <!-- Application themes  -->
+    <!-- =================== -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/lightPrimary</item>
+        <item name="colorPrimaryDark">@color/lightPrimaryDark</item>
+        <item name="colorAccent">@color/lightAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="backgroundColor">@color/lightBackground</item>
+        <item name="side_nav_bar_gradient">@drawable/side_nav_bar_light</item>
+
+        <item name="cardStyle">@style/CardViewStyle.Light</item>
+
+        <item name="book_bar">@color/book_bar</item>
+        <item name="book">@color/book</item>
+        <item name="music_bar">@color/music_bar</item>
+        <item name="music">@color/music</item>
+        <item name="movie_bar">@color/movie_bar</item>
+        <item name="movie">@color/movie</item>
+        <item name="personal_bar">@color/personal_bar</item>
+        <item name="personal">@color/personal</item>
+        <item name="settings_bar">@color/settings_bar</item>
+        <item name="settings">@color/settings</item>
+        <item name="about_bar">@color/about_bar</item>
+        <item name="about">@color/about</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/darkPrimary</item>
+        <item name="colorPrimaryDark">@color/darkPrimaryDark</item>
+        <item name="colorAccent">@color/darkAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="backgroundColor">@color/darkBackground</item>
+        <item name="side_nav_bar_gradient">@drawable/side_nav_bar_dark</item>
+
+        <item name="cardStyle">@style/CardViewStyle.Dark</item>
+
+        <item name="book">@color/book_dark</item>
+        <item name="book_bar">@color/book_bar_dark</item>
+        <item name="music">@color/music_dark</item>
+        <item name="music_bar">@color/music_bar_dark</item>
+        <item name="movie">@color/movie_dark</item>
+        <item name="movie_bar">@color/movie_bar_dark</item>
+        <item name="personal">@color/personal_dark</item>
+        <item name="personal_bar">@color/personal_bar_dark</item>
+        <item name="settings">@color/settings_dark</item>
+        <item name="settings_bar">@color/settings_bar_dark</item>
+        <item name="about">@color/about_dark</item>
+        <item name="about_bar">@color/about_bar_dark</item>
+    </style>
+
+</resources>
