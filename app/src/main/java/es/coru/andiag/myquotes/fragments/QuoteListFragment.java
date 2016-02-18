@@ -56,7 +56,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
     private FloatingActionMenu menu;
     private FloatingActionButton music, book, personal, movie;
-    private Snackbar snackbar;
 
     private DBHelper dbHelper;
     private SQLiteDatabase database;
@@ -314,9 +313,6 @@ public class QuoteListFragment extends Fragment implements QuoteListListener {
 
                 activityMain.notifyDatabaseChange();
 
-                if (snackbar != null) {
-                    snackbar.dismiss();
-                }
                 Snackbar.make(container, getResources().getString(R.string.removed), Snackbar.LENGTH_LONG)
                         .setAction(getResources().getString(R.string.undo), new View.OnClickListener() {
                             @Override

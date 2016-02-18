@@ -32,9 +32,23 @@
         <item>Español</item>
         <item>Italiano</item>
     </string-array>
+    <string-array name="pref_sync_language_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="pref_sync_language_default_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
     <string-array name="pref_theme_list_titles">
         <item>Claro</item>
         <item>Oscuro</item>
+    </string-array>
+    <string-array name="pref_theme_list_values">
+        <item>0</item>
+        <item>1</item>
     </string-array>
     <string name="added">Quote añadida</string>
     <string name="cant_share">No se pueden compartir Quote sin proporcionar permiso</string>
