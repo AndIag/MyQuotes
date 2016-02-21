@@ -37,6 +37,7 @@ public class GlobalPreferences {
         defaultSyncLanguages.add(String.valueOf(LanguageType.ENG.ordinal()));
         defaultSyncLanguages.add(String.valueOf(LanguageType.ESP.ordinal()));
         defaultSyncLanguages.add(String.valueOf(LanguageType.IT.ordinal()));
+        defaultSyncLanguages.add(String.valueOf(LanguageType.FR.ordinal()));
     }
 
     //region Preferences
