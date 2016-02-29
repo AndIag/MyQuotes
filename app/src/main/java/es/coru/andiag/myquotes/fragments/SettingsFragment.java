@@ -2,7 +2,6 @@ package es.coru.andiag.myquotes.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +23,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        if (GlobalPreferences.isLite()) {
-            Preference pref = findPreference(GlobalPreferences.PREF_MUST_SYNC);
-            pref.setEnabled(false);
-            pref = findPreference(GlobalPreferences.PREF_SYNC_LANGUAGES);
-            pref.setEnabled(false);
-        }
     }
 
     @Override
