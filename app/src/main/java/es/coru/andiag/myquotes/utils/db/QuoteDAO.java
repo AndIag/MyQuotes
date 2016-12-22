@@ -1,13 +1,9 @@
 package es.coru.andiag.myquotes.utils.db;
 
-import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,11 +16,12 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import es.coru.andiag.myquotes.R;
-import es.coru.andiag.myquotes.activities.BaseActivity;
 import es.coru.andiag.myquotes.activities.MainActivity;
 import es.coru.andiag.myquotes.entities.LanguageType;
 import es.coru.andiag.myquotes.entities.Quote;
@@ -97,11 +94,12 @@ public abstract class QuoteDAO {
 
     //endregion
     //region Firebase Methods
-    public static void cleanListener(){
-        if(listener!=null){
+    public static void cleanListener() {
+        if (listener != null) {
             myFirebaseRef.removeEventListener(listener);
         }
     }
+
     public static void loadFirebaseData(final MainActivity activity) {
         if (GlobalPreferences.mustSync(activity)) {
             listener = myFirebaseRef.addValueEventListener(
@@ -119,7 +117,7 @@ public abstract class QuoteDAO {
                             }
                             activity.addQuotes(quotes);
                         }
-        
+
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {
 
@@ -139,15 +137,10 @@ public abstract class QuoteDAO {
 
     public static void shareQuoteToUs(Context context, View view, Quote q) {
         if (q.isLocal()) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                String newId = telephonyManager.getDeviceId() + String.valueOf(q.getQuoteId());
-                q.setQuoteId(Long.parseLong(newId));
-                myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
-                Toast.makeText(context, context.getResources().getString(R.string.shared), Toast.LENGTH_SHORT).show();
-            } else {
-                ((BaseActivity) context).requestFeature(Manifest.permission.READ_PHONE_STATE, view, q);
-            }
+            String newId = new Random(Calendar.getInstance().getTimeInMillis()).nextLong() + String.valueOf(q.getQuoteId());
+            q.setQuoteId(Long.parseLong(newId));
+            myFirebaseRefShare.child(String.valueOf(q.getQuoteId())).setValue(new QuoteDTO(q));
+            Toast.makeText(context, context.getResources().getString(R.string.shared), Toast.LENGTH_SHORT).show();
         }
     }
 
